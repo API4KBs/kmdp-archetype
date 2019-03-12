@@ -103,6 +103,12 @@
       <artifactId>${rootArtifactId}-impl</artifactId>
       <version>${version}</version>
     </dependency>
+    <dependency>
+      <groupId>${groupId}</groupId>
+      <artifactId>${rootArtifactId}-client</artifactId>
+      <version>${version}</version>
+    </dependency>
+
 
     <dependency>
       <groupId>io.swagger</groupId>

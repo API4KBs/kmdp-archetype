@@ -1,6 +1,4 @@
-package $
-
-{package}.server.configuration;
+package ${package}.server.configuration;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonTokenId;
