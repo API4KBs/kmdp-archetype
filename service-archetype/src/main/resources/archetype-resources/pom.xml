@@ -16,7 +16,7 @@
     <module>${rootArtifactId}-impl</module>
     <module>${rootArtifactId}-server</module>
     <module>${rootArtifactId}-base</module>
-    <module>${rootArtifactId}-vm-client</module>
+    <module>${rootArtifactId}-api-client</module>
   </modules>
 
   <properties>

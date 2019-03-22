@@ -191,8 +191,8 @@
         </fileSet>
       </fileSets>
     </module>
-    <module id="${rootArtifactId}-vm-client" dir="__rootArtifactId__-vm-client"
-      name="{rootArtifactId}-vm-client">
+    <module id="${rootArtifactId}-api-client" dir="__rootArtifactId__-api-client"
+      name="{rootArtifactId}-api-client">
       <fileSets>
         <fileSet filtered="true">
           <directory/>
