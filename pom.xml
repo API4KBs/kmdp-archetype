@@ -37,4 +37,15 @@
     <module>configurable-archetype-plugin</module>
   </modules>
 
+  <repositories>
+    <repository>
+      <id>API4KP-mvn-repo</id>
+      <url>https://raw.github.com/API4KBs/mvn-repo/kmdp-bom/</url>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+
 </project>
