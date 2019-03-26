@@ -31,6 +31,17 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <properties>
+    <github.global.server>github</github.global.server>
+    <local-tmp-mvn>${session.executionRootDirectory}/target/mvn-repo</local-tmp-mvn>
+  </properties>
+
+  <scm>
+    <developerConnection>scm:git:ssh://github.com/API4KBs/kmdp-archetype.git</developerConnection>
+    <url>https://github.com/API4KBs/kmdp-archetype</url>
+  </scm>
+
+
   <modules>
     <module>service-archetype</module>
     <module>implementation-archetype</module>
@@ -47,5 +58,54 @@
       </snapshots>
     </repository>
   </repositories>
+
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+        <configuration>
+          <altDeploymentRepository>internal.repo::default::file://${local-tmp-mvn}</altDeploymentRepository>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <version>0.12</version>
+        <configuration>
+          <message>Maven artifacts for ${project.name} ${project.version}</message>
+          <outputDirectory>${local-tmp-mvn}</outputDirectory>
+          <branch>refs/heads/kmdp-archetype</branch>
+          <includes><include>**/*</include></includes>
+          <repositoryName>mvn-repo</repositoryName>
+          <repositoryOwner>API4KBs</repositoryOwner>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>deploy</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <distributionManagement>
+    <repository>
+      <id>internal.repo</id>
+      <name>Temporary Staging Repository</name>
+      <url>file://${local-tmp-mvn}</url>
+    </repository>
+    <snapshotRepository>
+      <id>internal.snap.repo</id>
+      <name>Temporary Staging Repository - Snapshots</name>
+      <url>file://${local-tmp-mvn}</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>
