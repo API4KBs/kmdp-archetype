@@ -24,7 +24,7 @@
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
     <artifactId>kmdp-bom</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
 
   <artifactId>kmdp-openapi-spring-archetype</artifactId>
@@ -33,7 +33,6 @@
 
   <properties>
     <github.global.server>github</github.global.server>
-    <local-tmp-mvn>${session.executionRootDirectory}/target/mvn-repo</local-tmp-mvn>
   </properties>
 
   <scm>
@@ -50,62 +49,14 @@
 
   <repositories>
     <repository>
-      <id>API4KP-mvn-repo</id>
-      <url>https://raw.github.com/API4KBs/mvn-repo/kmdp-bom/</url>
       <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
+        <enabled>false</enabled>
       </snapshots>
+      <id>bintray-api4kbs-API4KP-Mvn-Repo</id>
+      <name>bintray</name>
+      <url>https://dl.bintray.com/api4kbs/API4KP-Mvn-Repo</url>
     </repository>
   </repositories>
 
-
-  <build>
-    <plugins>
-
-      <plugin>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.8.2</version>
-        <configuration>
-          <altDeploymentRepository>internal.repo::default::file://${local-tmp-mvn}</altDeploymentRepository>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>com.github.github</groupId>
-        <artifactId>site-maven-plugin</artifactId>
-        <version>0.12</version>
-        <configuration>
-          <message>Maven artifacts for ${project.name} ${project.version}</message>
-          <outputDirectory>${local-tmp-mvn}</outputDirectory>
-          <branch>refs/heads/kmdp-archetype</branch>
-          <includes><include>**/*</include></includes>
-          <repositoryName>mvn-repo</repositoryName>
-          <repositoryOwner>API4KBs</repositoryOwner>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>site</goal>
-            </goals>
-            <phase>deploy</phase>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
-
-  <distributionManagement>
-    <repository>
-      <id>internal.repo</id>
-      <name>Temporary Staging Repository</name>
-      <url>file://${local-tmp-mvn}</url>
-    </repository>
-    <snapshotRepository>
-      <id>internal.snap.repo</id>
-      <name>Temporary Staging Repository - Snapshots</name>
-      <url>file://${local-tmp-mvn}</url>
-    </snapshotRepository>
-  </distributionManagement>
 
 </project>
