@@ -28,7 +28,7 @@
   </parent>
 
   <artifactId>kmdp-openapi-spring-archetype</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -58,5 +58,13 @@
     </repository>
   </repositories>
 
+
+  <distributionManagement>
+    <repository>
+      <id>bintray-api4kbs-API4KP-Mvn-Repo</id>
+      <name>api4kbs-API4KP-Mvn-Repo</name>
+      <url>https://api.bintray.com/maven/api4kbs/API4KP-Mvn-Repo/kmdp-archetype/;override=1</url>
+    </repository>
+  </distributionManagement>
 
 </project>
