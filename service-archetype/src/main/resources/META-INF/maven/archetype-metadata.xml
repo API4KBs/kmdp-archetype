@@ -11,7 +11,7 @@
     <requiredProperty key="modelDependencyArtifactId">
     </requiredProperty>
     <requiredProperty key="modelDependencyVersion">
-      <defaultValue>1.0-SNAPSHOT</defaultValue>
+      <defaultValue>1.0</defaultValue>
     </requiredProperty>
     <requiredProperty key="modelDependencyPackage">
       <defaultValue>edu.mayo.kmdp.common.model</defaultValue>

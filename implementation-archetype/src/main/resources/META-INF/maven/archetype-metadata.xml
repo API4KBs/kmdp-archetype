@@ -3,7 +3,7 @@
     <requiredProperty key="serviceGroupId"></requiredProperty>
     <requiredProperty key="serviceArtifactId"></requiredProperty>
     <requiredProperty key="serviceVersion">
-      <defaultValue>1.0-SNAPSHOT</defaultValue>
+      <defaultValue>1.0</defaultValue>
     </requiredProperty>
   </requiredProperties>
   <modules>

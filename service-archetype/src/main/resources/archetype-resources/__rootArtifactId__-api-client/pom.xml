@@ -83,7 +83,7 @@
                     <dependency>
                         <groupId>edu.mayo.kmdp</groupId>
                         <artifactId>kmdp-simple-generator</artifactId>
-                        <version>1.0-SNAPSHOT</version>
+                        <version>${project.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
