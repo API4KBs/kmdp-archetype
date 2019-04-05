@@ -14,7 +14,6 @@
       <defaultValue>1.0</defaultValue>
     </requiredProperty>
     <requiredProperty key="modelDependencyPackage">
-      <defaultValue>edu.mayo.kmdp.common.model</defaultValue>
     </requiredProperty>
   </requiredProperties>
   <modules>
