@@ -1,4 +1,7 @@
 # MEA 3D API Service Archetypes
+[![Build Status](https://travis-ci.com/API4KBs/kmdp-archetype.svg?branch=master)](https://travis-ci.com/API4KBs/kmdp-archetype)
+[ ![Download](https://api.bintray.com/packages/api4kbs/API4KP-Mvn-Repo/kmdp-archetype/images/download.svg) ](https://bintray.com/api4kbs/API4KP-Mvn-Repo/kmdp-archetype/_latestVersion)
+
 These two project generate KMDP services based on Swagger APIs. Running the ```mvn clean install``` from this directory will build both archetypes.
 
 ## service-archetype

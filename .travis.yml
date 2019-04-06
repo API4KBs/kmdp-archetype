@@ -2,9 +2,11 @@ language: java
 cache:
   directories:
   - "$HOME/.m2"
+install: true
+script: mvn install
 deploy:
   provider: script
-  script: mvn deploy -s .travis.settings.xml
+  script: mvn deploy -DskipTests -s .travis.settings.xml
   skip_cleanup: true
 env:
   global:
