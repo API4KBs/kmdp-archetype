@@ -15,11 +15,9 @@
   <version>${version}</version>
 
   <properties>
-    <jackson-threetenbp-version>2.6.4</jackson-threetenbp-version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <start-class>${package}.server.Swagger2SpringBoot</start-class>
-    <springframework.boot.version>1.5.9.RELEASE</springframework.boot.version>
     <failOnMissingWebXml>false</failOnMissingWebXml>
   </properties>
 

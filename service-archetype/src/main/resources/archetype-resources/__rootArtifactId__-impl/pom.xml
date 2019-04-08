@@ -13,10 +13,8 @@
   <artifactId>${rootArtifactId}-impl</artifactId>
 
   <properties>
-    <jackson-threetenbp-version>2.6.4</jackson-threetenbp-version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <spring.version>4.3.18.RELEASE</spring.version>
   </properties>
 
   <build>

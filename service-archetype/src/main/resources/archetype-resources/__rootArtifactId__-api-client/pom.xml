@@ -142,7 +142,7 @@
         <dependency>
             <groupId>com.github.joschi.jackson</groupId>
             <artifactId>jackson-datatype-threetenbp</artifactId>
-            <version>${jackson-threetenbp-version}</version>
+            <version>${jackson-threetenbp.version}</version>
         </dependency>
 
         <!-- test dependencies -->
