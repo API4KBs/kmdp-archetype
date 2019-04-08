@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.archetype.mojos.CreateProjectFromArchetypeMojo;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -53,6 +54,18 @@ public class ConfigurableGenerateProjectMojo extends CreateProjectFromArchetypeM
         MavenSession mvn = (MavenSession) sessionField.get(this);
 
         mvn.getUserProperties().putAll(prp);
+
+        // Ensure the target directory is cleared before instantiating the archetype
+        // This could be delegated to the clean plugin, which is however not guaranteed to be invoked
+        // Revisit the solution as time allows
+        Field baseDirField = CreateProjectFromArchetypeMojo.class.getDeclaredField("basedir");
+        baseDirField.setAccessible(true);
+        File dir = (File) baseDirField.get(this);
+
+        File targetDir = new File( dir, prp.getProperty("artifactId"));
+        if (targetDir.exists()) {
+          FileUtils.deleteDirectory(targetDir);
+        }
       } catch (IOException | IllegalAccessException | NoSuchFieldException e) {
         e.printStackTrace();
       }
