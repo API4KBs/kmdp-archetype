@@ -16,9 +16,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.15</swagger-annotations-version>
-        <maven-plugin-version>1.0.0</maven-plugin-version>
-        <junit-version>4.12</junit-version>
     </properties>
 
     <build>
@@ -73,6 +70,9 @@
                             <apiPackage>${package}</apiPackage>
                             <generateModels>false</generateModels>
                             <generateSupportingFiles>false</generateSupportingFiles>
+                            <configOptions>
+                                <dateLibrary>java8</dateLibrary>
+                            </configOptions>
                         </configuration>
                     </execution>
 
@@ -110,13 +110,16 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-annotations-version}</version>
         </dependency>
 
         <!-- HTTP client: Spring RestTemplate -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
 
         <!-- JSON processing: jackson -->
@@ -136,18 +139,11 @@
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.joschi.jackson</groupId>
-            <artifactId>jackson-datatype-threetenbp</artifactId>
-            <version>${jackson-threetenbp.version}</version>
-        </dependency>
 
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit-version}</version>
-            <scope>test</scope>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
         </dependency>
     </dependencies>
 

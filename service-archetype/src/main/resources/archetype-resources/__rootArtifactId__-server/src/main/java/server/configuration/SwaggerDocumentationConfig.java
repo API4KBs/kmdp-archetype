@@ -12,17 +12,17 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SwaggerDocumentationConfig {
 
-  ApiInfo apiInfo() {
-    return new ApiInfoBuilder()
-        .title("API")
-        .description("API")
-        .license("")
-        .licenseUrl("http://unlicense.org")
-        .termsOfServiceUrl("")
-        .version("TODO")
-        .contact(new Contact("", "", ""))
-        .build();
-  }
+//  ApiInfo apiInfo() {
+//    return new ApiInfoBuilder()
+//        .title("API")
+//        .description("API")
+//        .license("")
+//        .licenseUrl("http://unlicense.org")
+//        .termsOfServiceUrl("")
+//        .version("TODO")
+//        .contact(new Contact("", "", ""))
+//        .build();
+//  }
 
   @Bean
   public Docket customImplementation() {
@@ -30,9 +30,10 @@ public class SwaggerDocumentationConfig {
         .select()
         .apis(RequestHandlerSelectors.basePackage("${package}"))
         .build()
-        .directModelSubstitute(org.threeten.bp.LocalDate.class, java.sql.Date.class)
-        .directModelSubstitute(org.threeten.bp.OffsetDateTime.class, java.util.Date.class)
-        .apiInfo(apiInfo());
+        //.directModelSubstitute(org.threeten.bp.LocalDate.class, java.sql.Date.class)
+        //.directModelSubstitute(org.threeten.bp.OffsetDateTime.class, java.util.Date.class)
+        //.apiInfo(apiInfo()
+        ;
   }
 
 }
