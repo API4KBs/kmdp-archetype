@@ -82,12 +82,6 @@
 
     <dependency>
       <groupId>${groupId}</groupId>
-      <artifactId>${rootArtifactId}-impl</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>${groupId}</groupId>
       <artifactId>${rootArtifactId}-server</artifactId>
       <version>${project.version}</version>
     </dependency>

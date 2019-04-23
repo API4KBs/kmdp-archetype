@@ -87,41 +87,7 @@
         </fileSet>
       </fileSets>
     </module>
-    <module id="{rootArtifactId}-impl" dir="__rootArtifactId__-impl" name="{rootArtifactId}-impl">
-      <fileSets>
-        <fileSet filtered="true">
-          <directory/>
-          <includes>
-            <include>.gitignore</include>
-          </includes>
-        </fileSet>
-        <fileSet filtered="true" packaged="true" encoding="UTF-8">
-          <directory>src/main/java</directory>
-          <includes>
-            <include>**/*.java</include>
-          </includes>
-        </fileSet>
-        <fileSet filtered="true" encoding="UTF-8">
-          <directory>src/main/resources</directory>
-          <includes>
-            <include>**/*.xml</include>
-          </includes>
-        </fileSet>
-        <fileSet filtered="true" packaged="true" encoding="UTF-8">
-          <directory>src/test/java</directory>
-          <includes>
-            <include>**/*.java</include>
-          </includes>
-        </fileSet>
-        <fileSet filtered="true" encoding="UTF-8">
-          <directory>src/test/resources</directory>
-          <includes>
-            <include>**/*.properties</include>
-          </includes>
-        </fileSet>
-      </fileSets>
-    </module>
-    <module id="{rootArtifactId}-model" dir="__rootArtifactId__-model"
+   <module id="{rootArtifactId}-model" dir="__rootArtifactId__-model"
       name="{rootArtifactId}-model">
       <fileSets>
         <fileSet filtered="true">

@@ -13,7 +13,6 @@
   <modules>
     <module>${rootArtifactId}-model</module>
     <module>${rootArtifactId}-client</module>
-    <module>${rootArtifactId}-impl</module>
     <module>${rootArtifactId}-server</module>
     <module>${rootArtifactId}-base</module>
     <module>${rootArtifactId}-api-client</module>
@@ -64,7 +63,7 @@
                 <generateModelTests>false</generateModelTests>
                 <modelPackage>${model.package}</modelPackage>
                 <configOptions>
-                  <!--<dateLibrary>java8</dateLibrary>-->
+                  <dateLibrary>java8</dateLibrary>
                 </configOptions>
               </configuration>
             </execution>
