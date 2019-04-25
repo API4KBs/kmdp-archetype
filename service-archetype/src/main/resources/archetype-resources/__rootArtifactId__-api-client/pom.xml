@@ -87,12 +87,7 @@
 
     <dependencies>
         <!-- Model Dependency -->
-        <dependency>
-            <groupId>${groupId}</groupId>
-            <artifactId>${rootArtifactId}-model</artifactId>
-            <version>${version}</version>
-        </dependency>
-        <dependency>
+         <dependency>
             <groupId>${groupId}</groupId>
             <artifactId>${rootArtifactId}-server</artifactId>
             <version>${version}</version>

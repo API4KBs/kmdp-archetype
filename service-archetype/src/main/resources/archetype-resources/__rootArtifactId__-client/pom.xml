@@ -45,16 +45,45 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>include-xsds</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${modelDependencyGroupId}</groupId>
+                  <artifactId>${modelDependencyArtifactId}</artifactId>
+                  <version>${modelDependencyVersion}</version>
+
+                  <type>jar</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                  <includes>**/*.xsd,**/*.xjb,**/*catalog*.xml</includes>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
   <dependencies>
     <!-- Model Dependency -->
     <dependency>
-      <groupId>${groupId}</groupId>
-      <artifactId>${rootArtifactId}-model</artifactId>
-      <version>${version}</version>
+      <groupId>${modelDependencyGroupId}</groupId>
+      <artifactId>${modelDependencyArtifactId}</artifactId>
+      <version>${modelDependencyVersion}</version>
     </dependency>
+
 
     <dependency>
       <groupId>io.swagger</groupId>
