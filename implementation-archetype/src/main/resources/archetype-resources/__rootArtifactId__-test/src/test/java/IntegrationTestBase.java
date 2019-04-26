@@ -1,24 +1,24 @@
-package $
+package {package};
 
-{package};
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.runner.RunWith;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ConfigurableApplicationContext;
+import java.util.Optional;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
 
-import static org.junit.Assert.*;
-
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {/* TODO -- add your Spring config */})
 public abstract class IntegrationTestBase {
 
   private ConfigurableApplicationContext ctx;
 
-  @org.junit.Before
+  @BeforeAll
   public void setupServer() {
     SpringApplication app = null;
     //TODO: Use your Swagger2SpringBoot class here.
@@ -26,9 +26,10 @@ public abstract class IntegrationTestBase {
     this.ctx = app.run();
   }
 
-  @org.junit.After
+  @AfterAll
   public void stopServer() {
-    ctx.close();
+    if (ctx != null) {
+      ctx.close();
+    }
   }
-
 }
