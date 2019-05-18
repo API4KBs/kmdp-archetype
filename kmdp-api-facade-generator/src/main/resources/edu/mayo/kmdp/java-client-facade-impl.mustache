@@ -1,0 +1,85 @@
+package {{package}};
+
+import {{modelPackage}}.*;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+import org.springframework.http.ResponseEntity;
+
+{{#operations}}
+public class {{classname}}Facade implements {{package}}.{{classname}} {
+
+  protected enum Integration {
+    LOCAL, WEB_SIMPLE, WEB_FULL;
+  }
+
+  protected {{package}}.server.{{classname}}Delegate __localDelegate;
+  protected {{package}}.client.{{classname}} __webClient;
+  protected {{package}}.{{classname}}Responsive __tryClient;
+
+  protected Integration mode;
+
+  protected {{classname}}Facade( {{package}}.server.{{classname}}Delegate delegate ) {
+    this.__localDelegate = delegate;
+    mode = Integration.LOCAL;
+  }
+
+  protected {{classname}}Facade( {{package}}.ApiClient webClient ) {
+    if (webClient instanceof {{package}}.ResponsiveApiClient) {
+      mode = Integration.WEB_FULL;
+      __tryClient = new {{package}}.{{classname}}Responsive( ({{package}}.ResponsiveApiClient) webClient );
+      __webClient = new {{package}}.client.{{classname}}(webClient);
+    } else {
+      mode = Integration.WEB_SIMPLE;
+      __webClient = new {{package}}.client.{{classname}}(webClient);
+    }
+  }
+
+  {{#operation}}
+  {{#isDeprecated}}@Deprecated{{/isDeprecated}}
+  public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} do_{{operationId}}({{#allParams}}{{dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    switch (mode) {
+      case LOCAL:
+      {{#returnType}} return {{/returnType}} __localDelegate.{{operationId}}( {{#allParams}} {{paramName}} {{#hasMore}}, {{/hasMore}} {{/allParams}} ).getBody();
+      {{^returnType}} break; {{/returnType}}
+      case WEB_FULL:
+      case WEB_SIMPLE:
+      default:
+      {{#returnType}} return {{/returnType}} __webClient.{{operationId}}( {{#allParams}} {{paramName}} {{#hasMore}}, {{/hasMore}} {{/allParams}} );
+    }
+  }
+  {{/operation}}
+
+  {{#operation}}
+  {{#isDeprecated}}@Deprecated{{/isDeprecated}}
+  public org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    switch (mode) {
+      case LOCAL:
+        return {{operationId}}_cast(__localDelegate.{{operationId}}( {{#allParams}} {{paramName}} {{#hasMore}}, {{/hasMore}} {{/allParams}} ));
+      case WEB_SIMPLE:
+        return org.omg.spec.api4kp._1_0.Answer.unsupported();
+      case WEB_FULL:
+      default:
+        return {{operationId}}_cast(__tryClient.{{operationId}}( {{#allParams}} {{paramName}} {{#hasMore}}, {{/hasMore}} {{/allParams}} ));
+    }
+  }
+
+  protected org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}_cast(ResponseEntity<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> ans) {
+    return org.omg.spec.api4kp._1_0.Answer.of(
+        Integer.toString(ans.getStatusCode().value()),
+        ans.getBody(),
+        ans.getHeaders());
+  }
+  {{/operation}}
+
+}
+{{/operations}}
+

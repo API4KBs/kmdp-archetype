@@ -1,0 +1,141 @@
+package {{invokerPackage}};
+
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+{{/fullJavaUtil}}
+
+import java.lang.reflect.Field;
+
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.RequestEntity.BodyBuilder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.ReflectionUtils;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+import {{invokerPackage}}.auth.Authentication;
+
+
+import static edu.mayo.kmdp.utils.JsonRestWSUtils.enableFHIR;
+import edu.mayo.kmdp.utils.JsonRestWSUtils.WithFHIR;
+
+public class ResponsiveApiClient extends ApiClient {
+
+  //TODO FIXME This is a hack due to the 'restTemplate' being private in ApiClient
+  protected RestTemplate templateRef;
+
+  public static ResponsiveApiClient newInstance() {
+    return newInstance(WithFHIR.NONE);
+  }
+
+  public static ResponsiveApiClient newInstance(WithFHIR fhirVersion) {
+    switch (fhirVersion) {
+      case DSTU2:
+        return new FHIR2ResponsiveApiClient();
+      case STU3:
+        return new FHIR3ResponsiveApiClient();
+      case NONE:
+      default:
+        return new ResponsiveApiClient();
+    }
+  }
+
+  protected ResponsiveApiClient() {
+    try {
+      Field templateField = ApiClient.class.getDeclaredField("restTemplate");
+      ReflectionUtils.makeAccessible(templateField);
+      this.templateRef = (RestTemplate) ReflectionUtils.getField(templateField,this);
+    } catch (NoSuchFieldException e) {
+      throw new RuntimeException("Unable to locate the 'restTemplate' field on the ApiClient class. "
+          + "This should not happen unless the ApiClient code generation strategy has changed significantly");
+    }
+  }
+
+
+  /**
+   * Invoke API by sending HTTP request with the given options.
+   *
+   * @param <T> the return type to use
+   * @param path The sub-path of the HTTP URL
+   * @param method The request method
+   * @param queryParams The query parameters
+   * @param body The request body object
+   * @param headerParams The header parameters
+   * @param formParams The form parameters
+   * @param accept The request's Accept header
+   * @param contentType The request's Content-Type header
+   * @param authNames The authentications to apply
+   * @param returnType The return type into which to deserialize the response
+   * @return The response body in chosen type
+   */
+  public <T> ResponseEntity<T> callAPI(String path, HttpMethod method,
+      MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams,
+      MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType,
+      String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+
+    for (String authName : authNames) {
+      Authentication auth = getAuthentications().get(authName);
+      if (auth != null) {
+        auth.applyToParams(queryParams, headerParams);
+      }
+    }
+
+    final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(getBasePath()).path(path);
+    if (queryParams != null) {
+      builder.queryParams(queryParams);
+    }
+
+    final BodyBuilder requestBuilder = RequestEntity.method(method, builder.build().toUri());
+    if (accept != null) {
+      requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
+    }
+    if (contentType != null) {
+      requestBuilder.contentType(contentType);
+    }
+
+    addHeadersToRequest(headerParams, requestBuilder);
+    //addHeadersToRequest(defaultHeaders, requestBuilder);
+
+    RequestEntity<Object> requestEntity = requestBuilder
+        .body(selectBody(body, formParams, contentType));
+
+    ResponseEntity<T> responseEntity = templateRef.exchange(requestEntity, returnType);
+    return responseEntity;
+  }
+
+
+
+
+
+  protected static class FHIR2ResponsiveApiClient extends ResponsiveApiClient {
+    protected RestTemplate buildRestTemplate() {
+      return enableFHIR(super.buildRestTemplate(),WithFHIR.DSTU2);
+    }
+  }
+
+  protected static class FHIR3ResponsiveApiClient extends ResponsiveApiClient {
+    protected RestTemplate buildRestTemplate() {
+      return enableFHIR(super.buildRestTemplate(),WithFHIR.STU3);
+    }
+  }
+
+
+
+
+}
+
