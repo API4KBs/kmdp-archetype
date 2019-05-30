@@ -15,8 +15,13 @@
  */
 package edu.mayo.kmdp;
 
-import edu.mayo.kmdp.util.FileUtil;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Optional;
 
 public class ClientTemplateGenerator {
 
@@ -24,9 +29,9 @@ public class ClientTemplateGenerator {
     File src = new File(args[0]);
     File tgt = new File(args[1]);
 
-    FileUtil.read(src)
+    read(src)
         .map(ClientTemplateGenerator::rewrite)
-        .ifPresent((f) -> FileUtil.write(f, tgt));
+        .ifPresent((f) -> write(f, tgt));
   }
 
   private static String rewrite(String s) {
@@ -51,4 +56,21 @@ public class ClientTemplateGenerator {
             "callAPI");
   }
 
+  private static void write(String content, File file) {
+    try (PrintWriter writer = new PrintWriter(file)) {
+      writer.write(content);
+      writer.flush();
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private static Optional<String> read(File f) {
+    try {
+      return Files.lines(Paths.get(f.toURI())).reduce(String::concat);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return Optional.empty();
+    }
+  }
 }

@@ -23,11 +23,10 @@
   <parent>
     <artifactId>kmdp-openapi-spring-archetype</artifactId>
     <groupId>edu.mayo.kmdp</groupId>
-    <version>1.0.2</version>
+    <version>2.0.0</version>
   </parent>
 
   <artifactId>kmdp-api-facade-generator</artifactId>
-  <version>1.0.2</version>
 
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -44,11 +43,6 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>edu.mayo.kmdp</groupId>
-      <artifactId>kmdp-lang-utils</artifactId>
     </dependency>
   </dependencies>
 

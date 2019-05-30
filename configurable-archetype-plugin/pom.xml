@@ -24,11 +24,10 @@
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
     <artifactId>kmdp-openapi-spring-archetype</artifactId>
-    <version>1.0.2</version>
+    <version>2.0.0</version>
   </parent>
 
   <artifactId>configurable-archetype-plugin</artifactId>
-  <version>1.0.2</version>
   <packaging>maven-plugin</packaging>
 
 
