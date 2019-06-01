@@ -24,7 +24,7 @@
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
     <artifactId>kmdp-bom</artifactId>
-    <version>(,2.0.1]</version>
+    <version>[2.0.0,2.0.1)</version>
   </parent>
 
   <artifactId>kmdp-openapi-spring-archetype</artifactId>
@@ -42,7 +42,6 @@
 
 
   <modules>
-    <module>configurable-archetype-plugin</module>
     <module>kmdp-openapi-spring-implementation-archetype</module>
     <module>kmdp-openapi-spring-service-archetype</module>
     <module>kmdp-api-facade-generator</module>

@@ -1,150 +1,181 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <artifactId>${rootArtifactId}</artifactId>
-        <groupId>${groupId}</groupId>
-        <version>${version}</version>
-    </parent>
+  <parent>
+    <artifactId>${rootArtifactId}</artifactId>
+    <groupId>${groupId}</groupId>
+    <version>${version}</version>
+  </parent>
 
-    <artifactId>${rootArtifactId}-api-client</artifactId>
+  <artifactId>${rootArtifactId}-api-client</artifactId>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>io.swagger</groupId>
-                <artifactId>swaggerhub-maven-plugin</artifactId>
-            </plugin>
+  <build>
+    <plugins>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack-mustache-custom-templates</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>edu.mayo.kmdp</groupId>
-                                    <artifactId>kmdp-api-facade-generator</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/mustache</outputDirectory>
-                                    <includes>**/*.mustache</includes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+      <plugin>
+        <groupId>io.reformanda.semper</groupId>
+        <artifactId>dependencyversion-maven-plugin</artifactId>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <id>set-dep-ver</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>set-version</goal>
+            </goals>
+            <configuration>
+              <propertySets>
+                <propertySet>
+                  <includes>
+                    <include>edu.mayo.kmdp:kmdp-api-facade-generator:jar</include>
+                  </includes>
+                </propertySet>
+              </propertySets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-            <plugin>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>gen-code</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.build.directory}/api.yaml</inputSpec>
-                            <language>edu.mayo.kmdp.FacadeClientGenerator</language>
-                            <templateDirectory>${project.build.directory}/mustache/edu/mayo/kmdp</templateDirectory>
-                            <apiPackage>${package}</apiPackage>
-                            <invokerPackage>${package}</invokerPackage>
-                            <generateModels>false</generateModels>
-                            <generateSupportingFiles>true</generateSupportingFiles>
-                            <configOptions>
-                                <dateLibrary>java8</dateLibrary>
-                            </configOptions>
-                        </configuration>
-                    </execution>
+      <plugin>
+        <groupId>io.swagger</groupId>
+        <artifactId>swaggerhub-maven-plugin</artifactId>
+      </plugin>
 
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>edu.mayo.kmdp</groupId>
-                        <artifactId>kmdp-api-facade-generator</artifactId>
-                        <version>${project.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-        </plugins>
-    </build>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-mustache-custom-templates</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>edu.mayo.kmdp</groupId>
+                  <artifactId>kmdp-api-facade-generator</artifactId>
+                  <version>${kmdp.archetype.version.resolved}</version>
+                  <type>jar</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.directory}/mustache</outputDirectory>
+                  <includes>**/*.mustache</includes>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-    <dependencies>
-        <!-- Model Dependency -->
-         <dependency>
-            <groupId>${groupId}</groupId>
-            <artifactId>${rootArtifactId}-server</artifactId>
-            <version>${version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${groupId}</groupId>
-            <artifactId>${rootArtifactId}-client</artifactId>
-            <version>${version}</version>
-        </dependency>
+      <plugin>
+        <groupId>io.swagger</groupId>
+        <artifactId>swagger-codegen-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>gen-code</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.build.directory}/api.yaml</inputSpec>
+              <language>edu.mayo.kmdp.FacadeClientGenerator</language>
+              <templateDirectory>${project.build.directory}/mustache/edu/mayo/kmdp</templateDirectory>
+              <apiPackage>${package}</apiPackage>
+              <invokerPackage>${package}</invokerPackage>
+              <generateModels>false</generateModels>
+              <generateSupportingFiles>true</generateSupportingFiles>
+              <configOptions>
+                <dateLibrary>java8</dateLibrary>
+              </configOptions>
+            </configuration>
+          </execution>
 
-        <dependency>
+        </executions>
+        <dependencies>
+          <dependency>
             <groupId>edu.mayo.kmdp</groupId>
-            <artifactId>kmdp-ws-utils</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>edu.mayo.kmdp</groupId>
-            <artifactId>kmdp-service-descr</artifactId>
-        </dependency>
+            <artifactId>kmdp-api-facade-generator</artifactId>
+            <version>${kmdp.archetype.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
 
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-        </dependency>
+  <dependencies>
+    <!-- Model Dependency -->
+    <dependency>
+      <groupId>${groupId}</groupId>
+      <artifactId>${rootArtifactId}-server</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${groupId}</groupId>
+      <artifactId>${rootArtifactId}-client</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
-        <!-- HTTP client: Spring RestTemplate -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-api-facade-generator</artifactId>
+      <version>${kmdp.archetype.version}</version>
+    </dependency>
 
-        <!-- JSON processing: jackson -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.jaxrs</groupId>
-            <artifactId>jackson-jaxrs-json-provider</artifactId>
-        </dependency>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-service-descr</artifactId>
+    </dependency>
 
-        <!-- test dependencies -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-        </dependency>
-    </dependencies>
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+    </dependency>
+
+    <!-- HTTP client: Spring RestTemplate -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+
+    <!-- JSON processing: jackson -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+    </dependency>
+
+    <!-- test dependencies -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>

@@ -38,18 +38,18 @@ public class ClientTemplateGenerator {
     return s.replaceAll("\\{\\{>licenseInfo}}", "")
         .replaceAll("\\{\\{>generatedAnnotation}}", "")
         .replaceAll("\\{\\{classname}}",
-            "\\{\\{classname\\}\\}Responsive")
+            "{{classname}}Responsive")
         .replaceAll("\\{\\{invokerPackage}}.ApiClient;",
-            "\\{\\{package\\}\\}.ResponsiveApiClient; \n"
+            "{{package}}.ResponsiveApiClient; \n"
                 + "import org.springframework.http.ResponseEntity;\n")
         .replaceAll("ApiClient ",
             "ResponsiveApiClient ")
         .replaceAll("new ApiClient",
             "ResponsiveApiClient.newInstance")
         .replaceAll("public \\{\\{#returnType}}",
-            "public ResponseEntity<\\{\\{#returnType\\}\\}")
+            "public ResponseEntity<{{#returnType}}")
         .replaceAll("void \\{\\{/returnType}}",
-            "Void \\{\\{/returnType}}> ")
+            "Void {{/returnType}}> ")
         .replaceAll("\\{\\{#returnType}}return \\{\\{/returnType}}",
             "return ")
         .replaceAll("invokeAPI",
@@ -67,7 +67,7 @@ public class ClientTemplateGenerator {
 
   private static Optional<String> read(File f) {
     try {
-      return Files.lines(Paths.get(f.toURI())).reduce(String::concat);
+      return Files.lines(Paths.get(f.toURI())).reduce((s,t) -> s + "\n" + t);
     } catch (IOException e) {
       e.printStackTrace();
       return Optional.empty();

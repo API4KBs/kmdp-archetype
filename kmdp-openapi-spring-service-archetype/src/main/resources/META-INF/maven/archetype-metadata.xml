@@ -1,8 +1,6 @@
 <archetype-descriptor name="kmdp-openapi-spring-service-archetype">
   <requiredProperties>
-    <requiredProperty key="apiOwner">
-      <defaultValue>mayo-clinic</defaultValue>
-    </requiredProperty>
+    <requiredProperty key="apiOwner"/>
     <requiredProperty key="apiName"/>
     <requiredProperty key="apiVersion"/>
     <requiredProperty key="modelDependencyGroupId">
@@ -10,9 +8,7 @@
     </requiredProperty>
     <requiredProperty key="modelDependencyArtifactId">
     </requiredProperty>
-    <requiredProperty key="modelDependencyVersion">
-      <defaultValue>1.0</defaultValue>
-    </requiredProperty>
+    <requiredProperty key="modelDependencyVersion"/>
     <requiredProperty key="modelDependencyPackage">
     </requiredProperty>
   </requiredProperties>
