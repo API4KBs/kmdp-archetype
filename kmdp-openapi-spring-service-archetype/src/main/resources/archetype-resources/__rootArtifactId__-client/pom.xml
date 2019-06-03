@@ -18,6 +18,32 @@
 
   <build>
     <plugins>
+
+      <plugin>
+        <groupId>io.reformanda.semper</groupId>
+        <artifactId>dependencyversion-maven-plugin</artifactId>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <id>set-dep-ver</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>set-version</goal>
+            </goals>
+            <configuration>
+              <propertySets>
+                <propertySet>
+                  <includes>
+                    <include>edu.mayo.kmdp:kmdp-api-facade-generator:jar</include>
+                  </includes>
+                </propertySet>
+              </propertySets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+
       <plugin>
         <groupId>io.swagger</groupId>
         <artifactId>swaggerhub-maven-plugin</artifactId>
@@ -42,7 +68,33 @@
               </configOptions>
             </configuration>
           </execution>
+          <execution>
+            <id>gen-facade</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.build.directory}/api.yaml</inputSpec>
+              <language>edu.mayo.kmdp.FacadeClientGenerator</language>
+              <templateDirectory>${project.build.directory}/mustache/edu/mayo/kmdp</templateDirectory>
+              <apiPackage>${package}</apiPackage>
+              <invokerPackage>${package}</invokerPackage>
+              <modelPackage>${modelDependencyPackage}</modelPackage>
+              <generateModels>false</generateModels>
+              <generateSupportingFiles>true</generateSupportingFiles>
+              <configOptions>
+                <dateLibrary>java8</dateLibrary>
+              </configOptions>
+            </configuration>
+          </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>edu.mayo.kmdp</groupId>
+            <artifactId>kmdp-api-facade-generator</artifactId>
+            <version>${kmdp.archetype.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
 
       <plugin>
@@ -70,17 +122,46 @@
               </artifactItems>
             </configuration>
           </execution>
+          <execution>
+            <id>unpack-mustache-custom-templates</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>edu.mayo.kmdp</groupId>
+                  <artifactId>kmdp-api-facade-generator</artifactId>
+                  <version>${kmdp.archetype.version.resolved}</version>
+                  <type>jar</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.directory}/mustache</outputDirectory>
+                  <includes>**/*.mustache</includes>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
+
+
     </plugins>
   </build>
 
   <dependencies>
     <!-- Model Dependency -->
     <dependency>
-      <groupId>${modelDependencyGroupId}</groupId>
-      <artifactId>${modelDependencyArtifactId}</artifactId>
-      <version>${modelDependencyVersion}</version>
+      <groupId>${groupId}</groupId>
+      <artifactId>${rootArtifactId}-server</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-api-facade-generator</artifactId>
+      <version>${kmdp.archetype.version}</version>
     </dependency>
 
 

@@ -14,7 +14,6 @@
     <module>${rootArtifactId}-client</module>
     <module>${rootArtifactId}-server</module>
     <module>${rootArtifactId}-base</module>
-    <module>${rootArtifactId}-api-client</module>
   </modules>
 
   <properties>

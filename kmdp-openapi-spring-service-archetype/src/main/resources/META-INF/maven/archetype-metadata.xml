@@ -117,41 +117,6 @@
         </fileSet>
       </fileSets>
     </module>
-    <module id="${rootArtifactId}-api-client" dir="__rootArtifactId__-api-client"
-      name="{rootArtifactId}-api-client">
-      <fileSets>
-        <fileSet filtered="true">
-          <directory/>
-          <includes>
-            <include>.gitignore</include>
-          </includes>
-        </fileSet>
-        <fileSet filtered="true" packaged="true" encoding="UTF-8">
-          <directory>src/main/java</directory>
-          <includes>
-            <include>**/*.java</include>
-          </includes>
-        </fileSet>
-        <fileSet filtered="true" encoding="UTF-8">
-          <directory>src/main/resources</directory>
-          <includes>
-            <include>**/*.properties</include>
-          </includes>
-        </fileSet>
-        <fileSet filtered="true" packaged="true" encoding="UTF-8">
-          <directory>src/test/java</directory>
-          <includes>
-            <include>**/*.java</include>
-          </includes>
-        </fileSet>
-        <fileSet filtered="true" encoding="UTF-8">
-          <directory>src/test/resources</directory>
-          <includes>
-            <include>**/*.properties</include>
-          </includes>
-        </fileSet>
-      </fileSets>
-    </module>
   </modules>
   <fileSets>
     <fileSet>

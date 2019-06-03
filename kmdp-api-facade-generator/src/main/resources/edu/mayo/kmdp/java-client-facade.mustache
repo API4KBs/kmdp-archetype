@@ -29,9 +29,9 @@ public interface {{classname}} {
 
   {{#operation}}
   {{#isDeprecated}}@Deprecated{{/isDeprecated}}
-  public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} do_{{operationId}}({{#allParams}}{{dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+  public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} do_{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 
-  public org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+  public org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 
 
   {{/operation}}
