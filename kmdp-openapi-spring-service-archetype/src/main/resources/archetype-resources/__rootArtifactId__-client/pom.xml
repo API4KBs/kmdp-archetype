@@ -162,6 +162,7 @@
       <groupId>edu.mayo.kmdp</groupId>
       <artifactId>kmdp-api-facade-generator</artifactId>
       <version>${kmdp.archetype.version}</version>
+      <optional>true</optional>
     </dependency>
 
 
