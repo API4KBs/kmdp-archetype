@@ -133,7 +133,7 @@
     <dependency>
       <groupId>${groupId}</groupId>
       <artifactId>${rootArtifactId}-server</artifactId>
-      <version>${project.version}</version>
+      <version>${version}</version>
     </dependency>
 
 

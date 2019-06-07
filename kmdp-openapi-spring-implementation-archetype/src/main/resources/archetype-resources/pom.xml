@@ -16,9 +16,4 @@
 
   <packaging>pom</packaging>
 
-  <modules>
-    <module>${rootArtifactId}-impl</module>
-    <module>${rootArtifactId}-test</module>
-  </modules>
-
 </project>
