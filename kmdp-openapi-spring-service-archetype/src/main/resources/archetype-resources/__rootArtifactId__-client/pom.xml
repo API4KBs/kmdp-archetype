@@ -102,27 +102,6 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <id>include-xsds</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>${modelDependencyGroupId}</groupId>
-                  <artifactId>${modelDependencyArtifactId}</artifactId>
-                  <version>${modelDependencyVersion}</version>
-
-                  <type>jar</type>
-                  <overWrite>true</overWrite>
-                  <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                  <includes>**/*.xsd,**/*.xjb,**/*catalog*.xml</includes>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-          <execution>
             <id>unpack-mustache-custom-templates</id>
             <phase>initialize</phase>
             <goals>
