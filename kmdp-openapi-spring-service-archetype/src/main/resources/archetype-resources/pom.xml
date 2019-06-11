@@ -23,22 +23,52 @@
   <build>
     <pluginManagement>
       <plugins>
+
         <plugin>
-          <groupId>io.swagger</groupId>
-          <artifactId>swaggerhub-maven-plugin</artifactId>
+          <groupId>io.reformanda.semper</groupId>
+          <artifactId>dependencyversion-maven-plugin</artifactId>
           <executions>
             <execution>
-              <phase>generate-sources</phase>
+              <id>set-ver</id>
+              <phase>initialize</phase>
               <goals>
-                <goal>download</goal>
+                <goal>set-version</goal>
               </goals>
               <configuration>
-                <api>${apiName}</api>
-                <owner>${apiOwner}</owner>
-                <version>${apiVersion}</version>
-                <outputFile>${project.build.directory}/api.yaml</outputFile>
-                <token>${swaggerhub.api.key}</token>
-                <format>yaml</format>
+                <propertySets>
+                  <propertySet>
+                    <includes>
+                      <include>${apiGroupId}:${apiArtifactId}:jar</include>
+                    </includes>
+                  </propertySet>
+                </propertySets>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>resolve-api</id>
+              <phase>initialize</phase>
+              <goals>
+                <goal>unpack</goal>
+              </goals>
+              <configuration>
+                <artifactItems>
+                  <artifactItem>
+                    <groupId>${apiGroupId}</groupId>
+                    <artifactId>${apiArtifactId}</artifactId>
+                    <version>${${apiGroupId}:${apiArtifactId}:jar.version}</version>
+                    <type>jar</type>
+
+                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                    <includes>**/${apiPath}/${apiVersion}/${apiName}</includes>
+                  </artifactItem>
+                </artifactItems>
               </configuration>
             </execution>
           </executions>
@@ -47,6 +77,9 @@
         <plugin>
           <groupId>io.swagger</groupId>
           <artifactId>swagger-codegen-maven-plugin</artifactId>
+          <configuration>
+            <inputSpec>${project.build.outputDirectory}/${apiPath}/${apiVersion}/${apiName}</inputSpec>
+          </configuration>
           <executions>
             <execution>
               <id>gen-code</id>
@@ -54,7 +87,6 @@
                 <goal>generate</goal>
               </goals>
               <configuration>
-                <inputSpec>${project.build.directory}/api.yaml</inputSpec>
                 <generateModels>false</generateModels>
                 <generateApiTests>false</generateApiTests>
                 <generateModelTests>false</generateModelTests>

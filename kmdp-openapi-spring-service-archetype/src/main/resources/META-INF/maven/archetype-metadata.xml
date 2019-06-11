@@ -1,8 +1,12 @@
 <archetype-descriptor name="kmdp-openapi-spring-service-archetype">
   <requiredProperties>
-    <requiredProperty key="apiOwner"/>
+    <requiredProperty key="apiArtifactId"/>
+    <requiredProperty key="apiGroupId"/>
+
     <requiredProperty key="apiName"/>
+    <requiredProperty key="apiPath"/>
     <requiredProperty key="apiVersion"/>
+
     <requiredProperty key="modelDependencyGroupId">
       <defaultValue>edu.mayo.kmdp</defaultValue>
     </requiredProperty>

@@ -23,8 +23,8 @@
     <plugins>
 
       <plugin>
-        <groupId>io.swagger</groupId>
-        <artifactId>swaggerhub-maven-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
 
       <plugin>
@@ -37,7 +37,6 @@
               <goal>generate</goal>
             </goals>
             <configuration>
-              <inputSpec>${project.build.directory}/api.yaml</inputSpec>
               <language>spring</language>
               <generateSupportingFiles>false</generateSupportingFiles>
               <generateModels>false</generateModels>
