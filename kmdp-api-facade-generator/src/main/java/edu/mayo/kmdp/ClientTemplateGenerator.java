@@ -42,12 +42,8 @@ public class ClientTemplateGenerator {
         .replaceAll("\\{\\{invokerPackage}}.ApiClient;",
             "{{package}}.ResponsiveApiClient; \n"
                 + "import org.springframework.http.ResponseEntity;\n")
-        .replaceAll("ApiClient ",
-            "ResponsiveApiClient ")
         .replaceAll("@Autowired",
             "@Autowired(required=false)")
-        .replaceAll("new ApiClient",
-            "ResponsiveApiClient.newInstance")
         .replaceAll("public \\{\\{#returnType}}",
             "public ResponseEntity<{{#returnType}}")
         .replaceAll("void \\{\\{/returnType}}",

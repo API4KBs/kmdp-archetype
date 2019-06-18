@@ -36,36 +36,12 @@ import edu.mayo.kmdp.util.ws.JsonRestWSUtils.WithFHIR;
 
 public class ResponsiveApiClient extends ApiClient {
 
-  //TODO FIXME This is a hack due to the 'restTemplate' being private in ApiClient
-  protected RestTemplate templateRef;
+  private RestTemplate restTemplate;
 
-  public static ResponsiveApiClient newInstance() {
-    return newInstance(WithFHIR.NONE);
+  public ResponsiveApiClient(RestTemplate restTemplate) {
+    super(restTemplate);
+    this.restTemplate = restTemplate;
   }
-
-  public static ResponsiveApiClient newInstance(WithFHIR fhirVersion) {
-    switch (fhirVersion) {
-      case DSTU2:
-        return new FHIR2ResponsiveApiClient();
-      case STU3:
-        return new FHIR3ResponsiveApiClient();
-      case NONE:
-      default:
-        return new ResponsiveApiClient();
-    }
-  }
-
-  protected ResponsiveApiClient() {
-    try {
-      Field templateField = ApiClient.class.getDeclaredField("restTemplate");
-      ReflectionUtils.makeAccessible(templateField);
-      this.templateRef = (RestTemplate) ReflectionUtils.getField(templateField,this);
-    } catch (NoSuchFieldException e) {
-      throw new RuntimeException("Unable to locate the 'restTemplate' field on the ApiClient class. "
-          + "This should not happen unless the ApiClient code generation strategy has changed significantly");
-    }
-  }
-
 
   /**
    * Invoke API by sending HTTP request with the given options.
@@ -114,28 +90,9 @@ public class ResponsiveApiClient extends ApiClient {
     RequestEntity<Object> requestEntity = requestBuilder
         .body(selectBody(body, formParams, contentType));
 
-    ResponseEntity<T> responseEntity = templateRef.exchange(requestEntity, returnType);
+    ResponseEntity<T> responseEntity = this.restTemplate.exchange(requestEntity, returnType);
     return responseEntity;
   }
-
-
-
-
-
-  protected static class FHIR2ResponsiveApiClient extends ResponsiveApiClient {
-    protected RestTemplate buildRestTemplate() {
-      return enableFHIR(super.buildRestTemplate(),WithFHIR.DSTU2);
-    }
-  }
-
-  protected static class FHIR3ResponsiveApiClient extends ResponsiveApiClient {
-    protected RestTemplate buildRestTemplate() {
-      return enableFHIR(super.buildRestTemplate(),WithFHIR.STU3);
-    }
-  }
-
-
-
 
 }
 

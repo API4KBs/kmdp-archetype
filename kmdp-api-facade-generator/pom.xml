@@ -90,7 +90,7 @@
         <configuration>
           <mainClass>edu.mayo.kmdp.ClientTemplateGenerator</mainClass>
           <arguments>
-            <argument>${project.build.directory}${s}tmp${s}Java${s}libraries${s}resttemplate${s}api.mustache</argument>
+            <argument>${project.basedir}${s}src${s}main${s}resources${s}api.mustache</argument>
             <argument>${project.build.outputDirectory}${s}edu${s}mayo${s}kmdp${s}java-responsive-api.mustache</argument>
           </arguments>
         </configuration>

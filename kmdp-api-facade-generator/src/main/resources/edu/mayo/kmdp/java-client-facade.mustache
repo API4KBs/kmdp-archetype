@@ -1,7 +1,7 @@
 package {{package}};
 
 import {{modelPackage}}.*;
-
+import edu.mayo.kmdp.util.ws.JsonRestWSUtils.WithFHIR;
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -15,12 +15,8 @@ import java.util.Map;
 {{#operations}}
 public interface {{classname}} {
 
-  public static {{classname}} newInstance() {
-    return new {{package}}.{{classname}}Facade( new {{package}}.ResponsiveApiClient() );
-  }
-
-  public static {{classname}} newInstance( {{package}}.ApiClient apiClient ) {
-    return new {{package}}.{{classname}}Facade( apiClient );
+  public static {{classname}} newInstance( {{package}}.client.ApiClientFactory apiClientFactory, boolean responsive ) {
+    return new {{package}}.{{classname}}Facade( apiClientFactory, responsive );
   }
 
   public static {{classname}} newInstance( {{package}}.server.{{classname}}Delegate delegate ) {

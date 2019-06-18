@@ -32,14 +32,14 @@ public class {{classname}}Facade implements {{package}}.{{classname}} {
     mode = Integration.LOCAL;
   }
 
-  protected {{classname}}Facade( {{package}}.ApiClient webClient ) {
-    if (webClient instanceof {{package}}.ResponsiveApiClient) {
+  protected {{classname}}Facade( {{package}}.client.ApiClientFactory webClientFactory, boolean responsive ) {
+    if (responsive) {
       mode = Integration.WEB_FULL;
-      __tryClient = new {{package}}.{{classname}}Responsive( ({{package}}.ResponsiveApiClient) webClient );
-      __webClient = new {{package}}.client.{{classname}}(webClient);
+      __tryClient = new {{package}}.{{classname}}Responsive(webClientFactory);
+      __webClient = new {{package}}.client.{{classname}}(webClientFactory);
     } else {
       mode = Integration.WEB_SIMPLE;
-      __webClient = new {{package}}.client.{{classname}}(webClient);
+      __webClient = new {{package}}.client.{{classname}}(webClientFactory);
     }
   }
 

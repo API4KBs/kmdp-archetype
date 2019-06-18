@@ -87,6 +87,7 @@
               <configOptions>
                 <dateLibrary>java8</dateLibrary>
               </configOptions>
+              <templateDirectory>${project.build.directory}/mustache</templateDirectory>
             </configuration>
           </execution>
           <execution>
