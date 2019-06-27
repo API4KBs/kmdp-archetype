@@ -125,10 +125,15 @@
     <!-- Model Dependency -->
     <dependency>
       <groupId>${groupId}</groupId>
-      <artifactId>${rootArtifactId}-server</artifactId>
+      <artifactId>${rootArtifactId}-interfaces</artifactId>
       <version>${version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-utils</artifactId>
+      <version>${version}</version>
+    </dependency>
 
     <dependency>
       <groupId>edu.mayo.kmdp</groupId>
@@ -136,7 +141,6 @@
       <version>${kmdp.archetype.version}</version>
       <optional>true</optional>
     </dependency>
-
 
     <dependency>
       <groupId>io.swagger</groupId>

@@ -11,6 +11,7 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>${rootArtifactId}-interfaces</module>
     <module>${rootArtifactId}-client</module>
     <module>${rootArtifactId}-server</module>
     <module>${rootArtifactId}-base</module>
