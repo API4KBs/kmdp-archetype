@@ -21,17 +21,12 @@ import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.languages.AbstractJavaCodegen;
-
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.io.FileUtils;
 
-public class FacadeClientGenerator extends AbstractJavaCodegen implements CodegenConfig {
+public class FacadeServerGenerator extends AbstractJavaCodegen implements CodegenConfig {
 
-  public FacadeClientGenerator() {
+  public FacadeServerGenerator() {
     super();
 
 
@@ -69,21 +64,18 @@ public class FacadeClientGenerator extends AbstractJavaCodegen implements Codege
     super.processOpts();
 
     supportsInheritance = true;
-    modelTemplateFiles.clear();
-    apiTemplateFiles.clear();
-    apiTestTemplateFiles.clear();
-    modelDocTemplateFiles.clear();
-    apiDocTemplateFiles.clear();
-    supportingFiles.clear();
-
-    apiTemplateFiles.put("java-client-facade.mustache", ".java");
-    apiTemplateFiles.put("java-client-facade-impl.mustache", "Facade.java");
+//    modelTemplateFiles.clear();
+//    apiTemplateFiles.clear();
+//    apiTestTemplateFiles.clear();
+//    modelDocTemplateFiles.clear();
+//    apiDocTemplateFiles.clear();
+//    supportingFiles.clear();
 
   }
 
   @Override
   public CodegenType getTag() {
-    return CodegenType.CLIENT;
+    return CodegenType.SERVER;
   }
 
   @Override

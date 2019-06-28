@@ -131,7 +131,7 @@
 
     <dependency>
       <groupId>edu.mayo.kmdp</groupId>
-      <artifactId>kmdp-utils</artifactId>
+      <artifactId>kmdp-rest-ws-utils</artifactId>
       <version>${version}</version>
     </dependency>
 

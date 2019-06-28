@@ -1,15 +1,15 @@
 package ${package}.client;
 
 import edu.mayo.kmdp.util.ws.JsonRestWSUtils;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
-import com.google.common.collect.Sets;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import edu.mayo.kmdp.util.ws.WebSessionContext;
 import edu.mayo.kmdp.util.ws.AuthorizationHeaderForwardConfiguration;
 import edu.mayo.kmdp.util.ws.HeaderForwardClientInterceptor;
 import ${package}.ApiClient;
-import ${package}.ResponsiveApiClient;
 
 public class ApiClientFactory {
 
@@ -18,7 +18,7 @@ public class ApiClientFactory {
   private String basePath;
 
   public ApiClientFactory(String basePath, JsonRestWSUtils.WithFHIR withFhir) {
-    this(basePath, withFhir, Sets.newHashSet(AuthorizationHeaderForwardConfiguration.AUTHORIZATION_HEADER));
+    this(basePath, withFhir, new HashSet<>(Arrays.asList(AuthorizationHeaderForwardConfiguration.AUTHORIZATION_HEADER)));
   }
 
   public ApiClientFactory(String basePath, JsonRestWSUtils.WithFHIR withFhir, Set<String> forwardHeaders) {
@@ -38,10 +38,9 @@ public class ApiClientFactory {
     this.restTemplate = restTemplate;
   }
 
-  public ResponsiveApiClient create() {
-    ResponsiveApiClient apiClient = new ResponsiveApiClient(this.restTemplate);
+  public ApiClient create() {
+    ApiClient apiClient = new ApiClient(this.restTemplate);
     apiClient.setBasePath(this.basePath);
-
     return apiClient;
   }
 

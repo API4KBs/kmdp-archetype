@@ -12,72 +12,66 @@ import java.util.List;
 import java.util.Map;
 {{/fullJavaUtil}}
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 {{#operations}}
 public class {{classname}}Facade implements {{package}}.{{classname}} {
 
   protected enum Integration {
-    LOCAL, WEB_SIMPLE, WEB_FULL;
+    LOCAL, WEB;
   }
 
   protected {{package}}.server.{{classname}}Delegate __localDelegate;
-  protected {{package}}.client.{{classname}} __webClient;
-  protected {{package}}.{{classname}}Responsive __tryClient;
+  protected {{package}}.client.ApiClientFactory __webClientFactory;
 
   protected Integration mode;
 
-  protected {{classname}}Facade( {{package}}.server.{{classname}}Delegate delegate ) {
+  protected {{classname}}Facade(
+      {{package}}.server.{{classname}}Delegate delegate) {
     this.__localDelegate = delegate;
     mode = Integration.LOCAL;
   }
 
-  protected {{classname}}Facade( {{package}}.client.ApiClientFactory webClientFactory, boolean responsive ) {
-    if (responsive) {
-      mode = Integration.WEB_FULL;
-      __tryClient = new {{package}}.{{classname}}Responsive(webClientFactory);
-      __webClient = new {{package}}.client.{{classname}}(webClientFactory);
-    } else {
-      mode = Integration.WEB_SIMPLE;
-      __webClient = new {{package}}.client.{{classname}}(webClientFactory);
-    }
+  protected {{classname}}Facade(
+      {{package}}.client.ApiClientFactory webClientFactory) {
+    this.__webClientFactory = webClientFactory;
+    this.mode = Integration.WEB;
   }
-
-  {{#operation}}
-  {{#isDeprecated}}@Deprecated{{/isDeprecated}}
-  public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} do_{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
-    switch (mode) {
-      case LOCAL:
-      {{#returnType}} return {{/returnType}} __localDelegate.{{operationId}}( {{#allParams}} {{paramName}} {{#hasMore}}, {{/hasMore}} {{/allParams}} ).getBody();
-      {{^returnType}} break; {{/returnType}}
-      case WEB_FULL:
-      case WEB_SIMPLE:
-      default:
-      {{#returnType}} return {{/returnType}} __webClient.{{operationId}}( {{#allParams}} {{paramName}} {{#hasMore}}, {{/hasMore}} {{/allParams}} );
-    }
-  }
-  {{/operation}}
 
   {{#operation}}
   {{#isDeprecated}}@Deprecated{{/isDeprecated}}
   public org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
     switch (mode) {
       case LOCAL:
-        return {{operationId}}_cast(__localDelegate.{{operationId}}( {{#allParams}} {{paramName}} {{#hasMore}}, {{/hasMore}} {{/allParams}} ));
-      case WEB_SIMPLE:
-        return org.omg.spec.api4kp._1_0.Answer.unsupported();
-      case WEB_FULL:
+        ResponseEntity<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> ans = __localDelegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        return {{operationId}}_cast(
+            ans.getBody(),
+            ans.getStatusCode(),
+            ans.getHeaders());
+      case WEB:
       default:
-        return {{operationId}}_cast(__tryClient.{{operationId}}( {{#allParams}} {{paramName}} {{#hasMore}}, {{/hasMore}} {{/allParams}} ));
+        {{package}}.ApiClient webClient = __webClientFactory.create();
+        {{package}}.client.{{classname}} client =
+            new {{package}}.client.{{classname}}(webClient);
+        client.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        return {{operationId}}_cast(
+            null,
+            webClient.getStatusCode(),
+            webClient.getResponseHeaders());
     }
   }
 
-  protected org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}_cast(ResponseEntity<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> ans) {
+  protected org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}_cast(
+      {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}} result,
+      HttpStatus status,
+      Map<String, List<String>> headers) {
     return org.omg.spec.api4kp._1_0.Answer.of(
-        Integer.toString(ans.getStatusCode().value()),
-        ans.getBody(),
-        ans.getHeaders());
+        Integer.toString(status.value()),
+        result,
+        headers);
   }
+
   {{/operation}}
 
 }
