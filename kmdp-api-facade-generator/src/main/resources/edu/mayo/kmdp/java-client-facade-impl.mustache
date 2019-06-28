@@ -54,9 +54,9 @@ public class {{classname}}Facade implements {{package}}.{{classname}} {
         {{package}}.ApiClient webClient = __webClientFactory.create();
         {{package}}.client.{{classname}} client =
             new {{package}}.client.{{classname}}(webClient);
-        client.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{#returnType}}{{{returnType}}} response = {{/returnType}}client.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         return {{operationId}}_cast(
-            null,
+            {{#returnType}}response{{/returnType}}{{^returnType}}null{{/returnType}},
             webClient.getStatusCode(),
             webClient.getResponseHeaders());
     }
