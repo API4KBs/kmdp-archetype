@@ -63,7 +63,7 @@
                   <artifactItem>
                     <groupId>${apiGroupId}</groupId>
                     <artifactId>${apiArtifactId}</artifactId>
-                    <version>${${apiGroupId}:${apiArtifactId}:jar.version}</version>
+                    <version>${${apiGroupId}.${apiArtifactId}.version}</version>
                     <type>jar</type>
 
                     <outputDirectory>${project.build.outputDirectory}</outputDirectory>
