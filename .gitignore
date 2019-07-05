@@ -108,3 +108,5 @@ fabric.properties
 
 # Maven build
 /target
+
+**/*.versionsBackup
