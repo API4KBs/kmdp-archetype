@@ -1,0 +1,38 @@
+package {{package}};
+
+import {{modelPackage}}.*;
+import edu.mayo.kmdp.util.ws.JsonRestWSUtils.WithFHIR;
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+{{#operations}}
+public interface {{classname}} {
+
+  public static {{classname}} newInstance( {{package}}.client.ApiClientFactory apiClientFactory ) {
+    return new {{package}}.{{classname}}Facade( apiClientFactory );
+  }
+
+  public static {{classname}} newInstance( {{package}}.server.{{classname}}Delegate delegate ) {
+    return new {{package}}.{{classname}}Facade( delegate );
+  }
+
+  {{#operation}}
+  {{#isDeprecated}}@Deprecated{{/isDeprecated}}
+  default public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} do_{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    {{#returnType}} return {{/returnType}} {{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).getOptionalValue().get();
+  }
+
+  public org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+
+
+  {{/operation}}
+}
+{{/operations}}
+

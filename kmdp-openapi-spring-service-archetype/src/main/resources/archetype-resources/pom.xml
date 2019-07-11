@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>${rootArtifactId}</artifactId>
+  <groupId>${groupId}</groupId>
+  <version>${version}</version>
+
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>${rootArtifactId}-interfaces</module>
+    <module>${rootArtifactId}-client</module>
+    <module>${rootArtifactId}-server</module>
+    <module>${rootArtifactId}-base</module>
+  </modules>
+
+  <properties>
+    <model.package>${modelDependencyPackage}</model.package>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>io.reformanda.semper</groupId>
+          <artifactId>dependencyversion-maven-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>set-ver</id>
+              <phase>initialize</phase>
+              <goals>
+                <goal>set-version</goal>
+              </goals>
+              <configuration>
+                <propertySets>
+                  <propertySet>
+                    <includes>
+                      <include>${apiGroupId}:${apiArtifactId}:jar</include>
+                    </includes>
+                  </propertySet>
+                </propertySets>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>resolve-api</id>
+              <phase>initialize</phase>
+              <goals>
+                <goal>unpack</goal>
+              </goals>
+              <configuration>
+                <artifactItems>
+                  <artifactItem>
+                    <groupId>${apiGroupId}</groupId>
+                    <artifactId>${apiArtifactId}</artifactId>
+                    <version>${${apiGroupId}.${apiArtifactId}.version}</version>
+                    <type>jar</type>
+
+                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                    <includes>**/${apiPath}/${apiVersion}/${apiName}</includes>
+                  </artifactItem>
+                </artifactItems>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>io.swagger</groupId>
+          <artifactId>swagger-codegen-maven-plugin</artifactId>
+          <configuration>
+            <inputSpec>${project.build.outputDirectory}/${apiPath}/${apiVersion}/${apiName}</inputSpec>
+          </configuration>
+          <executions>
+            <execution>
+              <id>gen-code</id>
+              <goals>
+                <goal>generate</goal>
+              </goals>
+              <configuration>
+                <generateModels>false</generateModels>
+                <generateApiTests>false</generateApiTests>
+                <generateModelTests>false</generateModelTests>
+                <modelPackage>${model.package}</modelPackage>
+                <configOptions>
+                  <dateLibrary>java8</dateLibrary>
+                </configOptions>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>

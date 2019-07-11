@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-
-    Copyright © 2018 Mayo Clinic (RSTKNOWLEDGEMGMT@mayo.edu)
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -24,11 +7,11 @@
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
     <artifactId>kmdp-bom</artifactId>
-    <version>1.0.1</version>
+    <version>2.5.0</version>
   </parent>
 
   <artifactId>kmdp-openapi-spring-archetype</artifactId>
-  <version>1.0.2</version>
+  <version>2.5.0</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -42,29 +25,38 @@
 
 
   <modules>
-    <module>service-archetype</module>
-    <module>implementation-archetype</module>
-    <module>configurable-archetype-plugin</module>
+    <module>kmdp-openapi-spring-implementation-archetype</module>
+    <module>kmdp-openapi-spring-service-archetype</module>
+    <module>kmdp-api-facade-generator</module>
   </modules>
 
-  <repositories>
-    <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>bintray-api4kbs-API4KP-Mvn-Repo</id>
-      <name>bintray</name>
-      <url>https://dl.bintray.com/api4kbs/API4KP-Mvn-Repo</url>
-    </repository>
-  </repositories>
 
+  <profiles>
+    <profile>
+      <id>public</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>bintray-api4kbs-API4KP-Mvn-Repo</id>
+          <name>bintray</name>
+          <url>https://dl.bintray.com/api4kbs/API4KP-Mvn-Repo</url>
+        </repository>
+      </repositories>
+      
+      <distributionManagement>
+        <repository>
+          <id>bintray-api4kbs-API4KP-Mvn-Repo</id>
+          <name>api4kbs-API4KP-Mvn-Repo</name>
+          <url>https://api.bintray.com/maven/api4kbs/API4KP-Mvn-Repo/kmdp-archetype/;override=1;publish=1</url>
+        </repository>
+      </distributionManagement>
+    </profile>
+  </profiles>
 
-  <distributionManagement>
-    <repository>
-      <id>bintray-api4kbs-API4KP-Mvn-Repo</id>
-      <name>api4kbs-API4KP-Mvn-Repo</name>
-      <url>https://api.bintray.com/maven/api4kbs/API4KP-Mvn-Repo/kmdp-archetype/;override=1;publish=1</url>
-    </repository>
-  </distributionManagement>
 
 </project>

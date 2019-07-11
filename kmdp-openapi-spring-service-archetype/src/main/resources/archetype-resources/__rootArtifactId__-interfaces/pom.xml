@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>${rootArtifactId}</artifactId>
+    <groupId>${groupId}</groupId>
+    <version>${version}</version>
+  </parent>
+
+  <artifactId>${rootArtifactId}-interfaces</artifactId>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>io.swagger</groupId>
+        <artifactId>swaggerhub-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>io.swagger</groupId>
+        <artifactId>swagger-codegen-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>gen-code</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <language>edu.mayo.kmdp.FacadeServerGenerator</language>
+              <apiPackage>${package}.server</apiPackage>
+              <generateSupportingFiles>false</generateSupportingFiles>
+              <configOptions>
+                <delegatePattern>true</delegatePattern>
+                <useTags>true</useTags>
+                <delegatesOnly>true</delegatesOnly>
+                <!-- FIXME Java8's use of Log.get(Controller.class) prevents the use here -->
+                <java8>false</java8>
+                <dateLibrary>legacy</dateLibrary>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>edu.mayo.kmdp</groupId>
+            <artifactId>kmdp-api-facade-generator</artifactId>
+            <version>${kmdp.archetype.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <dependencies>
+    <!-- Impl dependency -->
+    <dependency>
+      <groupId>${modelDependencyGroupId}</groupId>
+      <artifactId>${modelDependencyArtifactId}</artifactId>
+      <version>${modelDependencyVersion}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-service-descr</artifactId>
+      <version>${kmdp.impl.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+</project>
