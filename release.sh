@@ -1,4 +1,64 @@
 #!/bin/bash
+set -x #echo on
 
-mvn versions:update-parent
+##################################################
+#### Verify
+
+if [ "$#" -ne 2 ]; then
+    echo "Usage ./release.sh {release_version} {next_version}"
+    exit 2
+fi
+
+# Ensure to be on the develop branch
+git checkout develop
+
+##################################################
+#### Release
+
+# Prepare release branch
+git checkout -b "rel_$1"
+
+# Apply all necesssary version changes/fixtures
 mvn versions:set -DnewVersion=$1
+mvn versions:update-child-modules
+
+## cannot set parent version to a range with maven 3.3.9 / maven versions 2.7
+## mvn versions:update-parent -DparentVersion=$1
+sed -i -r "/<parent>/,/<\/parent>/ s|<version>(.*)</version>|<version>$1</version> |" pom.xml
+
+# Ensure it builds!
+mvn clean install -Prelease # -Dmaven.local.repo=../repo
+if [[ "$?" -ne 0 ]] ; then
+  mvn versions:revert
+  git checkout develop
+  git branch -d "rel_$1"
+  echo 'release failed';
+  exit -1
+fi
+
+
+# Commit changes
+git commit -am "Candidate release $1"
+
+##################################################
+#### Rebase
+
+# Rebase to ensure continuity
+git checkout develop
+git rebase "rel_$1"
+
+
+##################################################
+#### Move on
+
+# Revert all necesssary version changes/fixtures
+mvn versions:set -DnewVersion=$2
+mvn versions:update-child-modules
+
+## cannot set parent version to a range with maven 3.3.9 / maven versions 2.7
+## mvn versions:update-parent -DparentVersion="($2,)"
+sed -i -r "/<parent>/,/<\/parent>/ s|<version>([0-9]+\.[0-9]+\.[0-9]+)</version>|<version>($1,$2]</version> |" pom.xml
+
+
+# Commit changes
+git commit -am "Start version $2+"
