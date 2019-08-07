@@ -19,15 +19,7 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.languages.AbstractJavaCodegen;
-
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import org.apache.commons.io.FileUtils;
 
 public class FacadeClientGenerator extends AbstractJavaCodegen implements CodegenConfig {
 
@@ -60,7 +52,6 @@ public class FacadeClientGenerator extends AbstractJavaCodegen implements Codege
     cliOptions.add(CliOption.newBoolean(FULL_JAVA_UTIL,
         "whether to use fully qualified name for classes under java.util. This option only works for Java API client"));
 
-    //templateDir = initTemplateDir();
   }
 
 
@@ -96,13 +87,4 @@ public class FacadeClientGenerator extends AbstractJavaCodegen implements Codege
     return "TODO";
   }
 
-  @Override
-  public Map<String, String> apiTemplateFiles() {
-    return super.apiTemplateFiles();
-  }
-
-  @Override
-  public List<SupportingFile> supportingFiles() {
-    return super.supportingFiles();
-  }
 }
