@@ -22,7 +22,7 @@ public class Swagger2SpringBoot extends SpringBootServletInitializer implements 
     }
   }
 
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) {
     new SpringApplication(Swagger2SpringBoot.class).run(args);
   }
 

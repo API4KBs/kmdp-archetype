@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
-import edu.mayo.kmdp.util.ws.WebSessionContext;
 import edu.mayo.kmdp.util.ws.AuthorizationHeaderForwardConfiguration;
 import edu.mayo.kmdp.util.ws.HeaderForwardClientInterceptor;
 import ${package}.ApiClient;
@@ -23,14 +22,14 @@ public class ApiClientFactory {
 
   public ApiClientFactory(String basePath, JsonRestWSUtils.WithFHIR withFhir, Set<String> forwardHeaders) {
     this.basePath = basePath;
-    RestTemplate restTemplate = this.buildDefaultRestTemplate();
+    RestTemplate template = this.buildDefaultRestTemplate();
 
     HeaderForwardClientInterceptor interceptor =
             new HeaderForwardClientInterceptor(forwardHeaders);
 
-    restTemplate.getInterceptors().add(interceptor);
+    template.getInterceptors().add(interceptor);
 
-    this.restTemplate = JsonRestWSUtils.enableFHIR(restTemplate, withFhir);
+    this.restTemplate = JsonRestWSUtils.enableFHIR(template, withFhir);
   }
 
   public ApiClientFactory(String basePath, RestTemplate restTemplate) {
@@ -45,10 +44,10 @@ public class ApiClientFactory {
   }
 
   protected RestTemplate buildDefaultRestTemplate() {
-    RestTemplate restTemplate = new RestTemplate();
+    RestTemplate template = new RestTemplate();
     // This allows us to read the response more than once - Necessary for debugging.
-    restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(restTemplate.getRequestFactory()));
-    return restTemplate;
+    template.setRequestFactory(new BufferingClientHttpRequestFactory(template.getRequestFactory()));
+    return template;
   }
 
 }
