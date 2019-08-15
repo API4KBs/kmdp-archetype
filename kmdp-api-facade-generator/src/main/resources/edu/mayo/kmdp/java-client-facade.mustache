@@ -1,15 +1,11 @@
 package {{package}};
 
 import {{modelPackage}}.*;
-import edu.mayo.kmdp.util.ws.JsonRestWSUtils.WithFHIR;
 {{#imports}}import {{import}};
 {{/imports}}
 
 {{^fullJavaUtil}}
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 {{/fullJavaUtil}}
 
 {{#operations}}
@@ -26,7 +22,7 @@ public interface {{classname}} {
   {{#operation}}
   {{#isDeprecated}}@Deprecated{{/isDeprecated}}
   default public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} do_{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
-    {{#returnType}} return {{/returnType}} {{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).getOptionalValue().get();
+    {{#returnType}} return {{/returnType}} {{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).orElse(null);
   }
 
   public org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
