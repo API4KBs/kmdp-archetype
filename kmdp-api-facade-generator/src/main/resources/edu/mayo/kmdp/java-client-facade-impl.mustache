@@ -9,8 +9,6 @@ import org.omg.spec.api4kp._1_0.Answer;
 import org.omg.spec.api4kp._1_0.ServerSideException;
 
 {{^fullJavaUtil}}
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 {{/fullJavaUtil}}
@@ -65,7 +63,7 @@ public class {{classname}}Facade implements {{package}}.{{classname}} {
               webClient.getStatusCode(),
               webClient.getResponseHeaders());
         } catch (ServerSideException e) {
-          return Answer.failed(e);
+          return Answer.failedOnServer(e);
         } catch (Exception e) {
           return Answer.failed(e);
         }

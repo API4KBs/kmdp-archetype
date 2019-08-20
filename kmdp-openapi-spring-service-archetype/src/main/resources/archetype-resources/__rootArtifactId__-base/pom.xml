@@ -73,6 +73,11 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>${groupId}</groupId>
+        <artifactId>${rootArtifactId}-server</artifactId>
+        <version>${version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -80,10 +85,18 @@
 
     <dependency>
       <groupId>${groupId}</groupId>
-      <artifactId>${rootArtifactId}-server</artifactId>
+      <artifactId>${rootArtifactId}-interfaces</artifactId>
       <version>${version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
