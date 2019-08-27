@@ -1,6 +1,14 @@
 <archetype-descriptor name="kmdp-openapi-spring-service-archetype">
   <requiredProperties>
-    <requiredProperty key="apiArtifactId"/>
+    <requiredProperty key="useApiArtifact">
+      <defaultValue>true</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="apiArtifactId">
+      <defaultValue>API4KP</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="apiDirectory">
+      <defaultValue>../../api</defaultValue>
+    </requiredProperty>
     <requiredProperty key="apiGroupId"/>
 
     <requiredProperty key="apiName"/>
