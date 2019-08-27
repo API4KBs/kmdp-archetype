@@ -25,6 +25,8 @@
     <pluginManagement>
       <plugins>
 
+        #if($useApiArtifact == "true")
+
         <plugin>
           <groupId>io.reformanda.semper</groupId>
           <artifactId>dependencyversion-maven-plugin</artifactId>
@@ -74,6 +76,35 @@
             </execution>
           </executions>
         </plugin>
+
+        #end
+
+        #if($useApiArtifact == "false")
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>copy-resources</id>
+              <phase>initialize</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>${apiDirectory}</directory>
+                    <filtering>true</filtering>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        #end
 
         <plugin>
           <groupId>io.swagger</groupId>
