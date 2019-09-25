@@ -107,6 +107,12 @@
       <artifactId>javax.servlet-api</artifactId>
     </dependency>
 
+    <!-- Jackson -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-xml</artifactId>
+    </dependency>
+
   </dependencies>
 
 </project>

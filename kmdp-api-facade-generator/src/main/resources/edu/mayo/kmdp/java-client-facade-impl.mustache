@@ -5,9 +5,10 @@ import {{modelPackage}}.*;
 {{#imports}}import {{import}};
 {{/imports}}
 
+import org.omg.spec.api4kp._1_0.Answer;
+import org.omg.spec.api4kp._1_0.ServerSideException;
+
 {{^fullJavaUtil}}
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 {{/fullJavaUtil}}
@@ -54,11 +55,18 @@ public class {{classname}}Facade implements {{package}}.{{classname}} {
         {{package}}.ApiClient webClient = __webClientFactory.create();
         {{package}}.client.{{classname}} client =
             new {{package}}.client.{{classname}}(webClient);
-        {{#returnType}}{{{returnType}}} response = {{/returnType}}client.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-        return {{operationId}}_cast(
-            {{#returnType}}response{{/returnType}}{{^returnType}}null{{/returnType}},
-            webClient.getStatusCode(),
-            webClient.getResponseHeaders());
+        {{#returnType}}{{{returnType}}} response = null;{{/returnType}}
+        try {
+          {{#returnType}}response = {{/returnType}}client.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+          return {{operationId}}_cast(
+              {{#returnType}}response{{/returnType}}{{^returnType}}null{{/returnType}},
+              webClient.getStatusCode(),
+              webClient.getResponseHeaders());
+        } catch (ServerSideException e) {
+          return Answer.failedOnServer(e);
+        } catch (Exception e) {
+          return Answer.failed(e);
+        }
     }
   }
 
