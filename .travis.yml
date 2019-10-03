@@ -1,9 +1,9 @@
 language: java
 install: true
-script: mvn clean install
+script: mvn clean install -Ppublic
 deploy:
   provider: script
-  script: mvn deploy -DskipTests -s .travis.settings.xml
+  script: mvn deploy -Ppublic -DskipTests -s .travis.settings.xml
   skip_cleanup: true
 env:
   global:
