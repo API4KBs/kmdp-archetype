@@ -1,11 +1,17 @@
 language: java
 install: true
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=API4KBs_api4kbs -Ppublic
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=API4KBs_kmdp-archetype -Ppublic
 deploy:
-  provider: script
-  script: mvn deploy -Ppublic -DskipTests -s .travis.settings.xml
-  skip_cleanup: true
+  - provider: script
+    script: mvn deploy -Ppublic -s .travis.settings.xml
+    skip_cleanup: true
+    on:
+      branch: master
+  - provider: script
+    script: mvn deploy -Ppublic -s .travis.settings.xml
+    on:
+      branch: develop
 env:
   global:
   - secure: HavGWdAeknN6Q/oL3YyG69aZmH9qGptxYKfvLtMH2aLNiqo3IDDhof6TOgagPk/+sak9DazJTG6eKuBF41oyJEDoxcH7u1rhOtLQDKQvKHOfU6qgdKOGUM7Sc2WnR4U1X75KMp9SuBzPy8qHn9PYkMdjdaxMvDgyrKLelNZbBext3IjDixdK+gxdZi5RJ6UmDGXj5/LmSLAnk+EiBIWb7mqStYHfnyGE4w4Wi52KbyePRTv6UuIvGZ6o48sLW+z1u8yKVYc4eNFiC9OpFnE4ey20CO0H1nsthjM3ubhw4HezyP+DQtWxNi3CbNi231O1lbfaGQMZIeUYImgclY1h5UeaqFnawF+mmPUuRl4O5sd0gcFIfQD86mkWCTqbEHkaJ7sPPYVeEvs9CjX3/hmMiQddddf9HR7sHfd6h2zpsxca58XGoVbsOLZ7ZrXP4ln1GSIFik/H0dV/ialMGa+SILYP6sNJmkjmcf32uBjDODAHg0Kavae1gmzSRSIBVGk35U7IPGSmT8eG0Z67wHhVwFbCthPvi+kODUo9kqlzUhm0bqZGHWj3Oa9SMnABsV06Wv2LDG9FsZRz1nAY100K26UMewTKExHBfwnc/w/CZUyQ7dVl7in+GLolYPYc0cI3QzTGMPk/LxV+kDMB3NOd98oEwur6j0QvOLAd9kaYIc4=
