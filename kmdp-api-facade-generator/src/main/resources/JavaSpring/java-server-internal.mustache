@@ -1,0 +1,30 @@
+package {{package}};
+
+import {{modelPackage}}.*;
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.List;
+{{/fullJavaUtil}}
+
+{{#operations}}
+public interface {{classname}}Internal {
+
+{{#operation}}
+
+  org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> {{operationId}}(
+    {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}});
+
+  {{#hasOptionalParams}}
+  default org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> {{operationId}}(
+    {{#requiredParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}) {
+    return {{operationId}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{#defaultValue}}{{#isString}}"{{.}}"{{/isString}}{{^isString}}{{.}}{{/isString}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+  }
+  {{/hasOptionalParams}}
+
+{{/operation}}
+
+
+}
+{{/operations}}

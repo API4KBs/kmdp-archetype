@@ -57,10 +57,14 @@ public class FacadeServerGenerator extends SpringCodegen implements CodegenConfi
     }
 
     if (delegatesOnly) {
+      // no controllers - interfaces only
       apiTemplateFiles.remove("api.mustache");
       apiTemplateFiles.remove("apiController.mustache");
+      apiTemplateFiles.put("java-server-internal.mustache", "Internal.java");
     }
     if (controllersOnly) {
+      // no interfaces needed
+      apiTemplateFiles.put("java-server-internal-adapter.mustache", "InternalAdapter.java");
       apiTemplateFiles.remove("apiDelegate.mustache");
     }
 

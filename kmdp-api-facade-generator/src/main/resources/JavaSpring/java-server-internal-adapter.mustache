@@ -1,0 +1,39 @@
+package {{package}};
+
+import edu.mayo.kmdp.util.ws.ResponseHelper;
+
+import {{modelPackage}}.*;
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.List;
+{{/fullJavaUtil}}
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import org.omg.spec.api4kp._1_0.services.KPServer;
+
+import org.springframework.http.ResponseEntity;
+
+{{#operations}}
+@Named
+@KPServer
+public class {{classname}}InternalAdapter implements {{classname}}Delegate {
+
+  @Inject @KPServer
+  private {{classname}}Internal server;
+
+  {{#operation}}
+
+  public ResponseEntity<{{#returnType}}{{>returnTypes}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}(
+    {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}) {
+      return ResponseHelper.asResponse(server.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}));
+    }
+
+  {{/operation}}
+
+
+}
+{{/operations}}
+
