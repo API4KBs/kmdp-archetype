@@ -2,6 +2,10 @@ language: java
 install: true
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=API4KBs_kmdp-archetype -Ppublic
+branches:
+  only:
+    - master
+    - develop
 deploy:
   - provider: script
     script: mvn deploy -Ppublic -s .travis.settings.xml
