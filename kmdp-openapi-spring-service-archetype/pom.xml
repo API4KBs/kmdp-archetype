@@ -24,7 +24,7 @@
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
     <artifactId>kmdp-openapi-spring-archetype</artifactId>
-    <version>5.1.0</version>
+    <version>6.0.0</version>
   </parent>
 
   <artifactId>kmdp-openapi-spring-service-archetype</artifactId>
