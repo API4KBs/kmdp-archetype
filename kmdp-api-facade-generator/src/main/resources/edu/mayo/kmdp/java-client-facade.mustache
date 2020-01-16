@@ -15,6 +15,11 @@ public interface {{classname}} extends {{package}}.server.{{classname}}Internal 
     return new {{package}}.{{classname}}Facade( apiClientFactory );
   }
 
+  public static {{classname}} newInstance( String baseUrl ) {
+    return new {{package}}.{{classname}}Facade(
+     new {{package}}.client.ApiClientFactory(baseUrl) );
+  }
+
   public static {{classname}} newInstance( {{package}}.server.{{classname}}Delegate delegate ) {
     return new {{package}}.{{classname}}Facade( delegate );
   }

@@ -13,6 +13,12 @@ public interface {{classname}}Internal {
 
 {{#operation}}
 
+  @java.lang.FunctionalInterface
+  public interface _{{operationId}} {
+    org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> {{operationId}}(
+        {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}});
+  }
+
   org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> {{operationId}}(
     {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}});
 

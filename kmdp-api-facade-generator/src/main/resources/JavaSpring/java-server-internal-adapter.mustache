@@ -14,6 +14,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.omg.spec.api4kp._1_0.services.KPServer;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 {{#operations}}
@@ -21,13 +24,16 @@ import org.springframework.http.ResponseEntity;
 @KPServer
 public class {{classname}}InternalAdapter implements {{classname}}Delegate {
 
-  @Inject @KPServer
+  @Autowired(required = false) @KPServer
   private {{classname}}Internal server;
 
   {{#operation}}
 
   public ResponseEntity<{{#returnType}}{{>returnTypes}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}(
     {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}) {
+      if (server == null) {
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+      }
       return ResponseHelper.asResponse(server.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}));
     }
 
