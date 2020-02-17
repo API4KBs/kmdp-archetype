@@ -19,29 +19,6 @@
   <build>
     <plugins>
 
-      <plugin>
-        <groupId>io.reformanda.semper</groupId>
-        <artifactId>dependencyversion-maven-plugin</artifactId>
-        <inherited>false</inherited>
-        <executions>
-          <execution>
-            <id>set-dep-ver</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>set-version</goal>
-            </goals>
-            <configuration>
-              <propertySets>
-                <propertySet>
-                  <includes>
-                    <include>edu.mayo.kmdp:kmdp-api-facade-generator:jar</include>
-                  </includes>
-                </propertySet>
-              </propertySets>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -58,7 +35,7 @@
                 <artifactItem>
                   <groupId>edu.mayo.kmdp</groupId>
                   <artifactId>kmdp-api-facade-generator</artifactId>
-                  <version>${kmdp.archetype.version.resolved}</version>
+                  <version>${kmdp.archetype.version}</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>${project.build.directory}/mustache</outputDirectory>
