@@ -5,6 +5,14 @@
 trigger:
 - develop
 
+resources:
+  pipelines:
+  - pipeline: kmdpOpenapiSpringArchetypeDevelop
+    source: kmdpBomDevelop
+    trigger: 
+      branches:
+      - develop
+
 pool:
   vmImage: 'ubuntu-latest'
 
