@@ -75,7 +75,7 @@
     <dependency>
       <artifactId>${rootArtifactId}-interfaces</artifactId>
       <groupId>${groupId}</groupId>
-      <version>${version}</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
