@@ -76,7 +76,7 @@
       <dependency>
         <groupId>${groupId}</groupId>
         <artifactId>${rootArtifactId}-server</artifactId>
-        <version>${project.version}</version>
+        <version>${version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -86,7 +86,7 @@
     <dependency>
       <groupId>${groupId}</groupId>
       <artifactId>${rootArtifactId}-interfaces</artifactId>
-      <version>${project.version}</version>
+      <version>${version}</version>
     </dependency>
 
     <dependency>
