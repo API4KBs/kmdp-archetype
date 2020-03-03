@@ -62,6 +62,22 @@ steps:
     versionFilePath: pom.xml
     versionTransformation: none
 
+# Download Secure Settings m2 File
+- task: DownloadSecureFile@1
+  displayName: 'Download Secure m2'
+  name: settingsxml
+  inputs:
+    secureFile: settings-dev.xml
+
+# Write settings file to Build Server
+- task: PowerShell@2
+  displayName: 'Update m2 Settings File'
+  inputs:
+    targetType: 'inline'
+    script: |
+      New-Item -Type Directory -Force "${HOME}/.m2"
+      Copy-Item -Force "$(settingsxml.secureFilePath)" "${HOME}/.m2/settings.xml"
+
 # Authenticate to Maven Feed 
 - task: MavenAuthenticate@0
   displayName: 'Maven Authenticate'
