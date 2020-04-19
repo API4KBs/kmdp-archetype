@@ -6,21 +6,29 @@ import {{modelPackage}}.*;
 
 {{^fullJavaUtil}}
 import java.util.List;
+import java.util.Optional;
 {{/fullJavaUtil}}
 
 {{#operations}}
 public interface {{classname}}Internal {
 
+  public interface {{classname}}Operation {
+    // marker interface for Operations
+  }
+
+
 {{#operation}}
 
   @java.lang.FunctionalInterface
-  public interface _{{operationId}} {
+  public interface _{{operationId}} extends {{classname}}Operation {
     org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> {{operationId}}(
         {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}});
   }
 
-  org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> {{operationId}}(
-    {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}});
+  default org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> {{operationId}}(
+    {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}) {
+    return org.omg.spec.api4kp._1_0.Answer.unsupported();
+  }
 
   {{#hasOptionalParams}}
   default org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> {{operationId}}(
@@ -31,6 +39,30 @@ public interface {{classname}}Internal {
 
 {{/operation}}
 
+  public interface Operator {
+    {{#operation}}
+
+    default boolean can_{{operationId}}() {
+      return this instanceof _{{operationId}};
+    }
+
+    default Optional<_{{operationId}}> as_{{operationId}}() {
+      return can_{{operationId}}()
+        ? Optional.of((_{{operationId}}) this)
+        : Optional.empty();
+    }
+
+    default org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> try_{{operationId}}(
+        {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}) {
+        return can_{{operationId}}()
+          ? org.omg.spec.api4kp._1_0.Answer.of(as_{{operationId}}())
+                  .flatMap(x -> x.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}))
+          : org.omg.spec.api4kp._1_0.Answer.unsupported();
+    }
+
+    {{/operation}}
+
+  }
 
 }
 {{/operations}}
