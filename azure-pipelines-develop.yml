@@ -47,6 +47,14 @@ steps:
   inputs:
     artifactsFeeds: 'KMD'
 
+# Type Settings
+- task: PowerShell@2
+  displayName: 'Type Settings'
+  inputs:
+    targetType: 'inline'
+    script: |
+      type ${HOME}/.m2/settings.xml
+
 # Set JDK 11 and MVN Validate Project
 - task: Maven@3
   displayName: 'Set Maven JDK 11'
