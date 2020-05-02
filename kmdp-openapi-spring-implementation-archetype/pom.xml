@@ -7,7 +7,7 @@
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
     <artifactId>kmdp-openapi-spring-archetype</artifactId>
-    <version>7.0.0</version>
+    <version>7.0.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>kmdp-openapi-spring-implementation-archetype</artifactId>
