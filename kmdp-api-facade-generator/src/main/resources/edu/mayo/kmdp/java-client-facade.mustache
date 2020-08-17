@@ -24,6 +24,10 @@ public interface {{classname}} extends {{package}}.server.{{classname}}Internal 
     return new {{package}}.{{classname}}Facade( delegate );
   }
 
+  public static {{classname}} newInstance( {{package}}.server.{{classname}}Internal internal ) {
+    return ({{classname}}) internal;
+  }
+
   {{#operation}}
   {{#isDeprecated}}@Deprecated{{/isDeprecated}}
   default {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} do_{{operationId}}(
@@ -31,11 +35,11 @@ public interface {{classname}} extends {{package}}.server.{{classname}}Internal 
     {{#returnType}} return {{/returnType}} {{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).orElse(null);
   }
 
-  org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}(
+  org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}(
     {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}});
 
   {{#hasOptionalParams}}
-  default org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}(
+  default org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}(
     {{#requiredParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}) {
     return {{operationId}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{#defaultValue}}{{#isString}}"{{.}}"{{/isString}}{{^isString}}{{.}}{{/isString}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
   }

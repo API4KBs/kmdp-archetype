@@ -21,17 +21,17 @@ public interface {{classname}}Internal {
 
   @java.lang.FunctionalInterface
   public interface _{{operationId}} extends {{classname}}Operation {
-    org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> {{operationId}}(
+    org.omg.spec.api4kp._20200801.Answer<{{>returnTypes}}> {{operationId}}(
         {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}});
   }
 
-  default org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> {{operationId}}(
+  default org.omg.spec.api4kp._20200801.Answer<{{>returnTypes}}> {{operationId}}(
     {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}) {
-    return org.omg.spec.api4kp._1_0.Answer.unsupported();
+    return org.omg.spec.api4kp._20200801.Answer.unsupported();
   }
 
   {{#hasOptionalParams}}
-  default org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> {{operationId}}(
+  default org.omg.spec.api4kp._20200801.Answer<{{>returnTypes}}> {{operationId}}(
     {{#requiredParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}) {
     return {{operationId}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{#defaultValue}}{{#isString}}"{{.}}"{{/isString}}{{^isString}}{{.}}{{/isString}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
   }
@@ -52,12 +52,12 @@ public interface {{classname}}Internal {
         : Optional.empty();
     }
 
-    default org.omg.spec.api4kp._1_0.Answer<{{>returnTypes}}> try_{{operationId}}(
+    default org.omg.spec.api4kp._20200801.Answer<{{>returnTypes}}> try_{{operationId}}(
         {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}) {
         return can_{{operationId}}()
-          ? org.omg.spec.api4kp._1_0.Answer.of(as_{{operationId}}())
+          ? org.omg.spec.api4kp._20200801.Answer.of(as_{{operationId}}())
                   .flatMap(x -> x.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}))
-          : org.omg.spec.api4kp._1_0.Answer.unsupported();
+          : org.omg.spec.api4kp._20200801.Answer.unsupported();
     }
 
     {{/operation}}

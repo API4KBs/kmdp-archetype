@@ -5,8 +5,8 @@ import {{modelPackage}}.*;
 {{#imports}}import {{import}};
 {{/imports}}
 
-import org.omg.spec.api4kp._1_0.Answer;
-import org.omg.spec.api4kp._1_0.ServerSideException;
+import org.omg.spec.api4kp._20200801.Answer;
+import org.omg.spec.api4kp._20200801.ServerSideException;
 
 {{^fullJavaUtil}}
 import java.util.List;
@@ -42,7 +42,7 @@ public class {{classname}}Facade implements {{package}}.{{classname}} {
 
   {{#operation}}
   {{#isDeprecated}}@Deprecated{{/isDeprecated}}
-  public org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+  public org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
     switch (mode) {
       case LOCAL:
         ResponseEntity<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> ans = __localDelegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
@@ -70,11 +70,11 @@ public class {{classname}}Facade implements {{package}}.{{classname}} {
     }
   }
 
-  protected org.omg.spec.api4kp._1_0.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}_cast(
+  protected org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}_cast(
       {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}} result,
       HttpStatus status,
       Map<String, List<String>> headers) {
-    return org.omg.spec.api4kp._1_0.Answer.of(
+    return org.omg.spec.api4kp._20200801.Answer.of(
         Integer.toString(status.value()),
         result,
         headers);
