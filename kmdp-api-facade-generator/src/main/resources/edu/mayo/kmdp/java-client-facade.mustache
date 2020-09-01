@@ -30,15 +30,30 @@ public interface {{classname}} extends {{package}}.server.{{classname}}Internal 
 
   {{#operation}}
   {{#isDeprecated}}@Deprecated{{/isDeprecated}}
+  /**
+   * {{summary}}
+   *
+   * @see {{classname}}#{{operationId}}
+   */
   default {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} do_{{operationId}}(
     {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
     {{#returnType}} return {{/returnType}} {{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).orElse(null);
   }
 
+  /**
+    * {{{summary}}}
+    *
+    * {{{notes}}}
+    */
   org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}(
     {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}});
 
   {{#hasOptionalParams}}
+  /**
+   * {{summary}}
+   *
+   * @see {{classname}}#{{operationId}}
+   */
   default org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}(
     {{#requiredParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}) {
     return {{operationId}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{#defaultValue}}{{#isString}}"{{.}}"{{/isString}}{{^isString}}{{.}}{{/isString}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
