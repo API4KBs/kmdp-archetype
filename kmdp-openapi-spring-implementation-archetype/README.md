@@ -1,7 +1,10 @@
-# MEA 3D API Implementation Archetype
+# KMDP OpenAPI Spring Implementation Archetype
+
+## Getting Started
+
 This project generates an implementation shell for a KMDP generated service.
 
-## Generating an Implementation Project
+### Generating an Implementation Project
 **Step 1: Build this archetype:** ``mvn clean install``
 
 **Step 2: Generate the project:** In a different directory, start the archetype generation: ``mvn archetype:generate -DarchetypeArtifactId=kmdp-implementation-archetype -DarchetypeGroupId=edu.mayo.kmdp.archetype -DarchetypeVersion=1.0-SNAPSHOT``
@@ -21,7 +24,7 @@ _NOTE_: ```serviceGroupId```, ```serviceArtifactId```, and ```serviceVersion``` 
 
 **Step 4: Build the generated project.** Change directories to the generated directory (usually named whatever you put for 'artifactId') and run ``mvn clean install``
 
-## Building the Implementation
+### Building the Implementation
 There should be a package there with one (or possibly more) files in the classpath names ending in ```ApiDelegate```.
 These are interfaces and should be implemented in your module.
 

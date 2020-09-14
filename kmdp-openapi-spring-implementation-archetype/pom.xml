@@ -4,14 +4,16 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <artifactId>kmdp-openapi-spring-implementation-archetype</artifactId>
+
+  <!-- Project Information -->
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
     <artifactId>kmdp-openapi-spring-archetype</artifactId>
     <version>7.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>kmdp-openapi-spring-implementation-archetype</artifactId>
-
+  <!-- Build Settings -->
   <build>
     <plugins>
       <plugin>
@@ -25,5 +27,9 @@
       </plugin>
     </plugins>
   </build>
+
+  <!-- More Project Information -->
+  <name>KMDP OpenAPI Spring Implementation Archetype</name>
+  <description>This project generates an implementation shell for a KMDP generated service</description>
 
 </project>

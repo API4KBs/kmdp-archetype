@@ -4,12 +4,17 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <artifactId>kmdp-openapi-spring-service-archetype</artifactId>
+
+  <!-- Project Information -->
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
     <artifactId>kmdp-openapi-spring-archetype</artifactId>
     <version>7.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>kmdp-openapi-spring-service-archetype</artifactId>
+  <!-- More Project Information -->
+  <name>KMDP OpenAPI Spring Service Archetype</name>
+  <description>This project generates a Spring Boot server, client, and empty implementation module given a SwaggerHub API</description>
 
 </project>

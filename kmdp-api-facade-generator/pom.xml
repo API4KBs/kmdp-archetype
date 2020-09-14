@@ -3,13 +3,15 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>kmdp-api-facade-generator</artifactId>
+
+  <!-- Project Information -->
   <parent>
     <artifactId>kmdp-openapi-spring-archetype</artifactId>
     <groupId>edu.mayo.kmdp</groupId>
     <version>7.0.1-SNAPSHOT</version>
   </parent>
-
-  <artifactId>kmdp-api-facade-generator</artifactId>
 
   <properties>
     <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -18,16 +20,20 @@
   </properties>
 
   <dependencies>
+    <!-- External Dependencies -->
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-codegen</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
     </dependency>
+
   </dependencies>
 
+  <!-- More Project Information -->
+  <name>KMDP API Facade Generator</name>
+  <description>This project creates one more layer of indirection on top of those interfaces exposing the ReST nature of the client/server interaction</description>
 
 </project>
