@@ -9,7 +9,9 @@ import java.util.List;
 {{/fullJavaUtil}}
 
 {{#operations}}
-public interface {{classname}} extends {{package}}.server.{{classname}}Internal {
+public interface {{classname}} extends {{package}}.server.{{classname}}Internal
+ {{#operation}}, {{package}}.server.{{classname}}Internal._{{operationId}}
+ {{/operation}} {
 
   public static {{classname}} newInstance( {{package}}.client.ApiClientFactory apiClientFactory ) {
     return new {{package}}.{{classname}}Facade( apiClientFactory );
@@ -25,7 +27,7 @@ public interface {{classname}} extends {{package}}.server.{{classname}}Internal 
   }
 
   public static {{classname}} newInstance( {{package}}.server.{{classname}}Internal internal ) {
-    return ({{classname}}) internal;
+    return new {{package}}.{{classname}}Facade( internal );
   }
 
   {{#operation}}

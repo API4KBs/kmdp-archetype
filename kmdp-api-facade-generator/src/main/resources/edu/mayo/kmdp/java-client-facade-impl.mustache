@@ -20,10 +20,11 @@ import org.springframework.http.ResponseEntity;
 public class {{classname}}Facade implements {{package}}.{{classname}} {
 
   protected enum Integration {
-    LOCAL, WEB;
+    DIRECT, LOCAL, WEB;
   }
 
   protected {{package}}.server.{{classname}}Delegate __localDelegate;
+  protected {{package}}.server.{{classname}}Internal __directDelegate;
   protected {{package}}.client.ApiClientFactory __webClientFactory;
 
   protected Integration mode;
@@ -40,10 +41,18 @@ public class {{classname}}Facade implements {{package}}.{{classname}} {
     this.mode = Integration.WEB;
   }
 
+  protected {{classname}}Facade(
+      {{package}}.server.{{classname}}Internal delegate) {
+    this.__directDelegate = delegate;
+    this.mode = Integration.DIRECT;
+  }
+
   {{#operation}}
   {{#isDeprecated}}@Deprecated{{/isDeprecated}}
   public org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
     switch (mode) {
+      case DIRECT:
+        return __directDelegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
       case LOCAL:
         ResponseEntity<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> ans = __localDelegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         return {{operationId}}_cast(
