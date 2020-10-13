@@ -26,53 +26,13 @@
         <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
 
-      <plugin>
-        <groupId>io.swagger</groupId>
-        <artifactId>swagger-codegen-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>gen-code</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <language>edu.mayo.kmdp.FacadeServerGenerator</language>
-              <generateSupportingFiles>false</generateSupportingFiles>
-              <generateModels>false</generateModels>
-              <apiPackage>${package}.server</apiPackage>
-              <modelPackage>${model.package}</modelPackage>
-              <addCompileSourceRoot>true</addCompileSourceRoot>
-              <configOptions>
-                <delegatePattern>true</delegatePattern>
-                <useTags>true</useTags>
-                <dateLibrary>java8</dateLibrary>
-                <controllersOnly>true</controllersOnly>
-              </configOptions>
-            </configuration>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>edu.mayo.kmdp</groupId>
-            <artifactId>kmdp-api-facade-generator</artifactId>
-            <version>${kmdp.archetype.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-
     </plugins>
   </build>
 
   <dependencies>
-    <!-- Impl dependency -->
-    <dependency>
-      <groupId>${modelDependencyGroupId}</groupId>
-      <artifactId>${modelDependencyArtifactId}</artifactId>
-      <version>${modelDependencyVersion}</version>
-    </dependency>
 
     <dependency>
-      <artifactId>${rootArtifactId}-interfaces</artifactId>
+      <artifactId>${rootArtifactId}-controllers</artifactId>
       <groupId>${groupId}</groupId>
       <version>${version}</version>
     </dependency>
@@ -96,26 +56,6 @@
       <artifactId>springfox-swagger-ui</artifactId>
     </dependency>
 
-    <!-- Bean Validation API support -->
-    <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-    </dependency>
-
-    <!-- Jackson -->
-    <dependency>
-      <groupId>com.fasterxml.jackson.dataformat</groupId>
-      <artifactId>jackson-dataformat-xml</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>edu.mayo.kmdp</groupId>
-      <artifactId>kmdp-rest-ws-utils</artifactId>
-    </dependency>
 
   </dependencies>
 
