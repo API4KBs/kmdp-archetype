@@ -3,14 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>kmdp-openapi-spring-archetype</artifactId>
-  <version>11.1.5</version>
+  <version>11.1.6-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <!-- Project Information -->
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
     <artifactId>kmdp-bom</artifactId>
-    <version>11.1.5</version>
+    <version>11.1.6-SNAPSHOT</version>
   </parent>
 
   <modules>
