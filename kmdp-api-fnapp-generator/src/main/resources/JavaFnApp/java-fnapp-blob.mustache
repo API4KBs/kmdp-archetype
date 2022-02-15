@@ -1,0 +1,84 @@
+package {{invokerPackage}};
+
+{{#imports}}
+import {{import}};
+{{/imports}}
+
+import com.microsoft.azure.functions.ExecutionContext;
+import com.microsoft.azure.functions.annotation.BindingName;
+import com.microsoft.azure.functions.annotation.BlobTrigger;
+import com.microsoft.azure.functions.annotation.FunctionName;
+
+import edu.mayo.kmdp.util.ws.FunctionAppHelper;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.function.Function;
+
+import org.omg.spec.api4kp._20200801.AbstractCarrier;
+import org.omg.spec.api4kp._20200801.Answer;
+import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.services.transrepresentation.ModelMIMECoder;
+
+
+{{^fullJavaUtil}}
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+{{/fullJavaUtil}}
+
+{{#operations}}
+  {{#operation}}
+    {{#operationFilter}}
+import {{apiPackage}}.server.{{classname}}Internal._{{operationId}};
+    {{/operationFilter}}
+  {{/operation}}
+{{/operations}}
+
+
+public class {{classname}}BlobFunction {
+
+  public interface ServiceProvider {
+    Function<KnowledgeCarrier, Answer<Void>> processor();
+  }
+
+  private static Constructor<? extends ServiceProvider> factory;
+
+  public static ServiceProvider newProvider()
+    throws InvocationTargetException, InstantiationException, IllegalAccessException {
+      if (factory == null) {
+        throw new UnsupportedOperationException("Unable to instantiate service provider");
+      }
+      return factory.newInstance();
+  }
+
+  public static void register(Class<? extends ServiceProvider> constr) {
+    try {
+      factory = constr.getConstructor();
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @FunctionName("blobprocessor")
+  public void run(
+      @BlobTrigger(name = "file",
+          dataType = "binary",
+          path = "{{storagePath}}/{name}",
+          connection = "{{connectionString}}")
+          byte[] content,
+      @BindingName("name")
+          String filename,
+      final ExecutionContext context) {
+
+      Answer<Void> ans;
+      try {
+        KnowledgeCarrier kc = AbstractCarrier.of(content)
+          {{#mimeType}}.withRepresentation(ModelMIMECoder.decode("{{mimeType}}").orElse(null)){{/mimeType}}
+          .withLabel(filename);
+        ans = factory.newInstance().processor().apply(kc);
+      } catch (Exception e) {
+        FunctionAppHelper.logException(context, e);
+        ans = Answer.failed(e);
+      }
+  }
+}

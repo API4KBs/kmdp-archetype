@@ -1,0 +1,35 @@
+package {{invokerPackage}};
+
+{{#imports}}
+import {{import}};
+{{/imports}}
+
+import java.util.function.Function;
+import org.omg.spec.api4kp._20200801.Answer;
+import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+
+{{#operations}}
+  {{#operation}}
+    {{#operationFilter}}
+      import {{package}}.server.{{classname}}Internal._{{operationId}};
+    {{/operationFilter}}
+  {{/operation}}
+{{/operations}}
+
+public interface {{classname}}Provider {
+
+  default {{apiPackage}}.{{classname}} get{{classname}}() {
+    throw new UnsupportedOperationException();
+  }
+
+{{#operations}}
+  {{#operation}}
+    {{#operationFilter}}
+      default _{{operationId}} get_{{operationId}}() {
+        return get{{classname}}();
+      }
+    {{/operationFilter}}
+  {{/operation}}
+{{/operations}}
+
+}

@@ -1,0 +1,37 @@
+package {{invokerPackage}};
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.function.Function;
+import org.omg.spec.api4kp._20200801.Answer;
+import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+
+
+public abstract class ProviderFactory {
+
+  public static interface ServiceProvider
+    {{#apiInfo}}extends {{#apis}}{{classname}}Provider{{#hasMore}}, {{/hasMore}}{{/apis}}{{/apiInfo}} {
+
+  }
+
+  private static Constructor<? extends ServiceProvider> factory;
+
+  public static ServiceProvider newProvider()
+    throws InvocationTargetException, InstantiationException, IllegalAccessException {
+      if (factory == null) {
+        throw new UnsupportedOperationException("Unable to instantiate service provider");
+      }
+      return factory.newInstance();
+  }
+
+  public static void register(Class<? extends ServiceProvider> constr) {
+    try {
+      factory = constr.getConstructor();
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    }
+  }
+
+
+
+}
