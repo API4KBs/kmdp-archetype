@@ -11,7 +11,12 @@ public class HomeController {
 
   @GetMapping(path = "/")
   public String index() {
-    return "redirect:swagger-ui.html";
+    return "redirect:swagger-ui/";
+  }
+
+  @GetMapping(path = "/swagger-ui.html")
+  public String springFoxLegacy() {
+    return "redirect:swagger-ui/";
   }
 
 }
