@@ -1,4 +1,4 @@
-package {{invokerPackage}};
+package {{package}};
 
 {{#imports}}
 import {{import}};
@@ -13,18 +13,22 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
+import java.lang.reflect.InvocationTargetException;
+
+import edu.mayo.kmdp.function.monitor.MonitorableFunctionApp;
 import edu.mayo.kmdp.util.ws.FunctionAppHelper;
 
 {{^fullJavaUtil}}
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.UUID;
 {{/fullJavaUtil}}
 
 {{#operations}}
   {{#operation}}
     {{#operationFilter}}
-import {{apiPackage}}.server.{{classname}}Internal._{{operationId}};
+import {{apiPackage}}.{{classname}}Internal._{{operationId}};
     {{/operationFilter}}
   {{/operation}}
 {{/operations}}
@@ -33,21 +37,42 @@ import {{apiPackage}}.server.{{classname}}Internal._{{operationId}};
 
 public class {{classname}}Function {
 
+
+  MonitorableFunctionApp monitorable;
+
 {{#operations}}
 {{#operation}}
 {{#operationFilter}}
+
+  public KnowledgePackageAssemblerApiFunction() {
+      var loader =
+          ServiceLoader
+              .load(_{{operationId}}.class);
+      delegate = loader.findFirst().orElseThrow(() ->
+        new RuntimeException("No provider for API " + _{{operationId}}.class.getName()));
+      monitorable = delegate instanceof MonitorableFunctionApp
+        ? (MonitorableFunctionApp) delegate
+        : MonitorableFunctionApp.unMonitorable();
+  }
+
+  _{{operationId}} delegate;
+
+  public {{classname}}Function(_{{operationId}} delegate) {
+    this.delegate = delegate;
+  }
+
+  public _{{operationId}} getDelegate() {
+    return delegate;
+  }
 
   @FunctionName("{{operationId}}")
   public HttpResponseMessage {{operationId}}(
       @HttpTrigger(
           name = "httpTrigger",
-          route = "{{{path}}}",
           methods = { HttpMethod.{{httpMethod}} },
           authLevel = AuthorizationLevel.ANONYMOUS)
           HttpRequestMessage<Optional<String>> request,
-      ExecutionContext context) {
-
-    org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> answer;
+      ExecutionContext functionExecContext) {
 
     try {
     {{#allParams}}
@@ -59,24 +84,83 @@ public class {{classname}}Function {
               {{{required}}}, // required
               {{#defaultValue}}"{{{defaultValue}}}"{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}, // default
               {{#isQueryParam}}request.getQueryParameters(){{/isQueryParam}}{{#isBodyParam}}request.getBody().orElse(null){{/isBodyParam}}{{#isHeaderParam}}request.getHeaders(){{/isHeaderParam}}{{#isPathParam}}request.getUri().getPath(){{/isPathParam}},
-              context.getInvocationId());
+              functionExecContext.getInvocationId());
     {{/allParams}}
 
-      ProviderFactory.ServiceProvider provider = ProviderFactory.newProvider();
-      _{{operationId}} delegate = provider.get_{{operationId}}();
-      answer = delegate.{{operationId}}(
+    var answer = delegate.{{operationId}}({{#contextAware}}functionExecContext.getInvocationId(),{{/contextAware}}
         {{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-
+      return FunctionAppHelper.toResponse(request, answer);
     } catch (Exception e) {
-      FunctionAppHelper.logException(context, e);
-      answer = org.omg.spec.api4kp._20200801.Answer.failed(e);
+      FunctionAppHelper.logException(functionExecContext, e);
+      var answer = org.omg.spec.api4kp._20200801.Answer.failed(e);
+      return FunctionAppHelper.toResponse(request, answer);
     }
 
-    return FunctionAppHelper.toResponse(request, answer);
   }
 
 {{/operationFilter}}
 {{/operation}}
 {{/operations}}
+
+
+  /**
+   * Version monitoring endpoint
+   *
+   * @param request         the client request
+   * @param functionContext the execution context
+   * @return the /version data, as a response
+   */
+  @FunctionName("version")
+  public HttpResponseMessage version(
+      @HttpTrigger(name = "httpTrigger", methods = {HttpMethod.GET},
+          authLevel = AuthorizationLevel.ANONYMOUS)
+      HttpRequestMessage<Optional<String>> request,
+      ExecutionContext functionContext) {
+    try {
+      return FunctionAppHelper.toResponse(request, monitorable.getVersion());
+    } catch (Exception e) {
+      return FunctionAppHelper.toResponse(request, org.omg.spec.api4kp._20200801.Answer.failed(e));
+    }
+  }
+
+  /**
+   * State monitoring endpoint
+   *
+   * @param request         the client request
+   * @param functionContext the execution context
+   * @return the /state data, as a response
+   */
+  @FunctionName("state")
+  public HttpResponseMessage state(
+      @HttpTrigger(name = "httpTrigger", methods = {HttpMethod.GET},
+          authLevel = AuthorizationLevel.ANONYMOUS)
+      HttpRequestMessage<Optional<String>> request,
+      ExecutionContext functionContext) {
+    try {
+      return FunctionAppHelper.toResponse(request, monitorable.getState());
+    } catch (Exception e) {
+      return FunctionAppHelper.toResponse(request, org.omg.spec.api4kp._20200801.Answer.failed(e));
+    }
+  }
+
+  /**
+   * Health monitoring endpoint
+   *
+   * @param request the client request
+   * @param context the execution context
+   * @return the /health data, as a response
+   */
+  @FunctionName("health")
+  public HttpResponseMessage health(
+      @HttpTrigger(name = "httpTrigger", methods = {HttpMethod.GET},
+          authLevel = AuthorizationLevel.ANONYMOUS)
+      HttpRequestMessage<Optional<String>> request,
+      ExecutionContext functionContext) {
+    try {
+      return FunctionAppHelper.toResponse(request, monitorable.getHealth());
+    } catch (Exception e) {
+      return FunctionAppHelper.toResponse(request, org.omg.spec.api4kp._20200801.Answer.failed(e));
+    }
+  }
 
 }

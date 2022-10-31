@@ -19,7 +19,6 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.languages.AbstractJavaCodegen;
 import java.io.IOException;
 import java.io.Writer;
@@ -30,6 +29,7 @@ public class FnappHttpServerGenerator extends AbstractJavaCodegen implements Cod
 
   public static final String FNAPP_J = "JavaFnApp";
   private static final String SELECTED_OPERATIONS = "selectedOperations";
+  private static final String CONTEXT_AWARE = "contextAware";
 
   public FnappHttpServerGenerator() {
     super();
@@ -37,6 +37,9 @@ public class FnappHttpServerGenerator extends AbstractJavaCodegen implements Cod
     cliOptions.add(
         CliOption.newString(SELECTED_OPERATIONS,
             "Comma-separated list of operation IDs"));
+    cliOptions.add(
+        CliOption.newString(CONTEXT_AWARE,
+            "If true, expect to propgate request ID"));
 
     embeddedTemplateDir = templateDir = FNAPP_J;
   }
@@ -69,10 +72,8 @@ public class FnappHttpServerGenerator extends AbstractJavaCodegen implements Cod
     supportingFiles.clear();
     apiTemplateFiles.clear();
 
-    supportingFiles.add(new SupportingFile("java-fnapp-factory.mustache", apiFilePath(), "ProviderFactory.java"));
-
     apiTemplateFiles.put("java-fnapp-http.mustache", "Function.java");
-    apiTemplateFiles.put("java-fnapp-service-provider.mustache", "Provider.java");
+    apiTemplateFiles.put("java-server-internal.mustache", "Internal.java");
 
     supportedLibraries.put(FNAPP_J, "Java Azure Function App Shell");
     setLibrary(FNAPP_J);
