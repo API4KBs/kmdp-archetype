@@ -17,7 +17,6 @@
     <module>kmdp-openapi-spring-implementation-archetype</module>
     <module>kmdp-openapi-spring-service-archetype</module>
     <module>kmdp-api-facade-generator</module>
-    <module>kmdp-api-fnapp-generator</module>
   </modules>
 
   <properties>
