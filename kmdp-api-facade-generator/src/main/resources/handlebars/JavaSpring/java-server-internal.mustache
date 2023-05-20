@@ -5,8 +5,10 @@ import {{modelPackage}}.*;
 {{/imports}}
 
 {{^fullJavaUtil}}
-import java.util.List;
-import java.util.Optional;
+  import java.util.List;
+  import java.util.Map;
+  import java.util.Optional;
+  import java.util.UUID;
 {{/fullJavaUtil}}
 
 {{#operations}}
@@ -22,18 +24,23 @@ public interface {{classname}}Internal {
   @java.lang.FunctionalInterface
   public interface _{{operationId}} extends {{classname}}Operation {
     org.omg.spec.api4kp._20200801.Answer<{{>returnTypes}}> {{operationId}}(
-        {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}});
+      {{{adaptedParams withType=true}}}
+    );
   }
 
   default org.omg.spec.api4kp._20200801.Answer<{{>returnTypes}}> {{operationId}}(
-    {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}) {
+      {{{adaptedParams withType=true}}}
+    ) {
     return org.omg.spec.api4kp._20200801.Answer.unsupported();
   }
 
   {{#hasOptionalParams}}
   default org.omg.spec.api4kp._20200801.Answer<{{>returnTypes}}> {{operationId}}(
-    {{#requiredParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}) {
-    return {{operationId}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{#defaultValue}}{{#isString}}"{{.}}"{{/isString}}{{^isString}}{{.}}{{/isString}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+      {{{adaptedParams withType=true required=true debug=true}}}
+    ) {
+    return {{operationId}}(
+      {{{adaptedParams withType=false required=true debug=true}}}
+    );
   }
   {{/hasOptionalParams}}
 
@@ -53,10 +60,13 @@ public interface {{classname}}Internal {
     }
 
     default org.omg.spec.api4kp._20200801.Answer<{{>returnTypes}}> try_{{operationId}}(
-        {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}) {
+        {{{adaptedParams withType=true}}}
+      ) {
         return can_{{operationId}}()
           ? org.omg.spec.api4kp._20200801.Answer.of(as_{{operationId}}())
-                  .flatMap(x -> x.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}))
+                  .flatMap(x -> x.{{operationId}}(
+            {{{adaptedParams withType=false}}}
+          ))
           : org.omg.spec.api4kp._20200801.Answer.unsupported();
     }
 

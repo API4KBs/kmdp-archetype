@@ -5,7 +5,10 @@ import {{modelPackage}}.*;
 {{/imports}}
 
 {{^fullJavaUtil}}
-import java.util.List;
+  import java.util.List;
+  import java.util.Map;
+  import java.util.Optional;
+  import java.util.UUID;
 {{/fullJavaUtil}}
 
 {{#operations}}
@@ -38,8 +41,9 @@ public interface {{classname}} extends {{package}}.server.{{classname}}Internal
    * @see {{classname}}#{{operationId}}
    */
   default {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} do_{{operationId}}(
-    {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
-    {{#returnType}} return {{/returnType}} {{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).orElse(null);
+    {{{adaptedParams withType=true}}}
+  ) {
+    {{#returnType}} return {{/returnType}} {{operationId}}({{{adaptedParams withType=false}}}).orElse(null);
   }
 
   /**
@@ -48,7 +52,8 @@ public interface {{classname}} extends {{package}}.server.{{classname}}Internal
     * {{{notes}}}
     */
   org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}(
-    {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}});
+    {{{adaptedParams withType=true}}}
+  );
 
   {{#hasOptionalParams}}
   /**
@@ -57,8 +62,9 @@ public interface {{classname}} extends {{package}}.server.{{classname}}Internal
    * @see {{classname}}#{{operationId}}
    */
   default org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}(
-    {{#requiredParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}) {
-    return {{operationId}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{#defaultValue}}{{#isString}}"{{.}}"{{/isString}}{{^isString}}{{.}}{{/isString}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{{adaptedParams withType=true required=true}}}
+  ) {
+    return {{operationId}}({{{adaptedParams withType=false required=true}}});
   }
   {{/hasOptionalParams}}
 

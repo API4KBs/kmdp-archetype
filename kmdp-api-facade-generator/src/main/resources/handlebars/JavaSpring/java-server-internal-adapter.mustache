@@ -7,7 +7,10 @@ import {{modelPackage}}.*;
 {{/imports}}
 
 {{^fullJavaUtil}}
-import java.util.List;
+  import java.util.List;
+  import java.util.Map;
+  import java.util.Optional;
+  import java.util.UUID;
 {{/fullJavaUtil}}
 
 import javax.inject.Inject;
@@ -30,11 +33,14 @@ public class {{classname}}InternalAdapter implements {{classname}}Delegate {
   {{#operation}}
 
   public ResponseEntity<{{#returnType}}{{>returnTypes}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}(
-    {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}) {
+      {{{adaptedParams withType=true delegate=true}}}
+    ) {
       if (server == null) {
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
       }
-      return ResponseHelper.asResponse(server.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}));
+      return ResponseHelper.asResponse(server.{{operationId}}(
+        {{{adaptedParams withType=false}}}
+      ));
     }
 
   {{/operation}}

@@ -15,11 +15,15 @@
  */
 package edu.mayo.kmdp;
 
-import io.swagger.codegen.CliOption;
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConstants;
-import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.languages.AbstractJavaCodegen;
+import com.github.jknack.handlebars.Handlebars;
+import io.swagger.codegen.v3.CliOption;
+import io.swagger.codegen.v3.CodegenConfig;
+import io.swagger.codegen.v3.CodegenConstants;
+import io.swagger.codegen.v3.CodegenContent;
+import io.swagger.codegen.v3.CodegenOperation;
+import io.swagger.codegen.v3.CodegenType;
+import io.swagger.codegen.v3.generators.java.AbstractJavaCodegen;
+import java.util.List;
 
 public class FacadeClientGenerator extends AbstractJavaCodegen implements CodegenConfig {
 
@@ -52,6 +56,35 @@ public class FacadeClientGenerator extends AbstractJavaCodegen implements Codege
     cliOptions.add(CliOption.newBoolean(FULL_JAVA_UTIL,
         "whether to use fully qualified name for classes under java.util. This option only works for Java API client"));
 
+  }
+
+
+  @Override
+  public void addHandlebarHelpers(Handlebars handlebars) {
+    super.addHandlebarHelpers(handlebars);
+    handlebars.registerHelper(ParamsAdapterHelper.NAME, new ParamsAdapterHelper(typeMapping));
+  }
+
+  @Override
+  public String getDefaultTemplateDir() {
+    return null;
+  }
+
+
+  @Override
+  protected void addCodegenContentParameters(
+      CodegenOperation codegenOperation, List<CodegenContent> codegenContents) {
+    for (CodegenContent content : codegenContents) {
+      addParameters(content, codegenOperation.headerParams);
+      addParameters(content, codegenOperation.queryParams);
+      addParameters(content, codegenOperation.pathParams);
+      addParameters(content, codegenOperation.cookieParams);
+      if (content.getIsForm()) {
+        addParameters(content, codegenOperation.formParams);
+      } else {
+        addParameters(content, codegenOperation.bodyParams);
+      }
+    }
   }
 
 

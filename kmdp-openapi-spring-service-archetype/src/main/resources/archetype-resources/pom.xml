@@ -85,7 +85,7 @@
         #end
 
         <plugin>
-          <groupId>io.swagger</groupId>
+          <groupId>io.swagger.codegen.v3</groupId>
           <artifactId>swagger-codegen-maven-plugin</artifactId>
           <configuration>
             <inputSpec>${project.build.outputDirectory}/${apiPath}/${apiVersion}/${apiName}</inputSpec>

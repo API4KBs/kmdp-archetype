@@ -9,8 +9,10 @@ import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.ServerSideException;
 
 {{^fullJavaUtil}}
-import java.util.List;
-import java.util.Map;
+  import java.util.List;
+  import java.util.Map;
+  import java.util.Optional;
+  import java.util.UUID;
 {{/fullJavaUtil}}
 
 import org.springframework.http.HttpStatus;
@@ -47,30 +49,32 @@ public class {{classname}}Facade implements {{package}}.{{classname}} {
     this.mode = Integration.DIRECT;
   }
 
+
   {{#operation}}
   {{#isDeprecated}}@Deprecated{{/isDeprecated}}
-  public org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+  public org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}(
+      {{{adaptedParams withType=true}}}
+    ) {
     switch (mode) {
       case DIRECT:
-        return __directDelegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        return __directDelegate.{{operationId}}(
+          {{{adaptedParams withType=false}}}
+        );
       case LOCAL:
-        ResponseEntity<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> ans = __localDelegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-        return {{operationId}}_cast(
-            ans.getBody(),
-            ans.getStatusCode(),
-            ans.getHeaders());
+        var localResponse = __localDelegate.{{operationId}}(
+          {{{adaptedParams withType=false delegate=true}}}
+        );
+        return edu.mayo.kmdp.util.ws.ResponseHelper.asAnswer(localResponse);
       case WEB:
       default:
-        {{package}}.ApiClient webClient = __webClientFactory.create();
-        {{package}}.client.{{classname}} client =
+        var webClient = __webClientFactory.create();
+        var client =
             new {{package}}.client.{{classname}}(webClient);
-        {{#returnType}}{{{returnType}}} response = null;{{/returnType}}
         try {
-          {{#returnType}}response = {{/returnType}}client.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-          return {{operationId}}_cast(
-              {{#returnType}}response{{/returnType}}{{^returnType}}null{{/returnType}},
-              webClient.getStatusCode(),
-              webClient.getResponseHeaders());
+          var webResponse = client.{{operationId}}WithHttpInfo(
+            {{{adaptedParams withType=false client=true}}}
+          );
+          return edu.mayo.kmdp.util.ws.ResponseHelper.asAnswer(webResponse);
         } catch (ServerSideException e) {
           return Answer.failedOnServer(e);
         } catch (Exception e) {
@@ -79,15 +83,6 @@ public class {{classname}}Facade implements {{package}}.{{classname}} {
     }
   }
 
-  protected org.omg.spec.api4kp._20200801.Answer<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}_cast(
-      {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}} result,
-      HttpStatus status,
-      Map<String, List<String>> headers) {
-    return org.omg.spec.api4kp._20200801.Answer.of(
-        Integer.toString(status.value()),
-        result,
-        headers);
-  }
 
   {{/operation}}
 

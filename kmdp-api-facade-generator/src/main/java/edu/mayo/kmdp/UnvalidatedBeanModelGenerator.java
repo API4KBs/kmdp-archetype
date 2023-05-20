@@ -1,6 +1,7 @@
 package edu.mayo.kmdp;
 
-import io.swagger.codegen.languages.SpringCodegen;
+
+import io.swagger.codegen.v3.generators.java.SpringCodegen;
 
 public class UnvalidatedBeanModelGenerator extends SpringCodegen {
 
