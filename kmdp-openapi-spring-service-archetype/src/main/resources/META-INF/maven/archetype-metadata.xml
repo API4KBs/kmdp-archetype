@@ -10,6 +10,7 @@
       <defaultValue>../../api</defaultValue>
     </requiredProperty>
     <requiredProperty key="apiGroupId"/>
+    <requiredProperty key="apiVersionId"/>
 
     <requiredProperty key="apiName"/>
     <requiredProperty key="apiPath"/>
