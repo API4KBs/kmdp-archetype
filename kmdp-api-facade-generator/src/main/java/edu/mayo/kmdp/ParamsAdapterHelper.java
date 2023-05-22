@@ -13,6 +13,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Helper class that handles the parameter ordering in the Swagger/OAS/Java/Spring mappings
+ * <p>
+ * Addresses the breaking described <a
+ * href="https://github.com/swagger-api/swagger-codegen/issues/9103">here</a> and the possible
+ * discrepancy between the OAS3 strategy used in Java Clients ("mode C"), Spring delegates ("mode
+ * D") and the normalized, more backward compatible KMP strategy ("mode N").
+ */
 public class ParamsAdapterHelper implements Helper<CodegenOperation> {
 
   enum MODE {
@@ -32,7 +40,6 @@ public class ParamsAdapterHelper implements Helper<CodegenOperation> {
     boolean requiredOnly = getFlag(options, "required", false);
     boolean delegate = getFlag(options, "delegate", false);
     boolean client = getFlag(options, "client", false);
-    boolean debug = getFlag(options, "debug", false);
 
     return sortedParams(context, decode(delegate, client)).stream()
         .map(p -> write(p, formal, requiredOnly))
@@ -93,12 +100,11 @@ public class ParamsAdapterHelper implements Helper<CodegenOperation> {
         return Stream.of(form, body, header, query, path, cook)
             .flatMap(s -> s)
             .sorted((one, another) -> {
-              if (one.required == another.required){
+              if (one.required == another.required) {
                 return 0;
               } else if (one.required) {
                 return -1;
-              }
-              else{
+              } else {
                 return 1;
               }
             }).collect(Collectors.toList());
@@ -112,22 +118,13 @@ public class ParamsAdapterHelper implements Helper<CodegenOperation> {
           .sorted(Comparator.comparing(k -> indexOf(k, context.contents.get(0).getParameters())))
           .collect(Collectors.toList());
     } else {
-      return Stream.of(path, query, body, header, form, cook)
+      // should be path, query, body?
+      return Stream.of(path, body, query, header, form, cook)
           .flatMap(s -> s)
           .filter(Objects::nonNull)
           .collect(Collectors.toList());
     }
   }
-//
-//          if (content.getIsForm()) {
-//    addParameters(content, codegenOperation.formParams);
-//  } else {
-//    addParameters(content, codegenOperation.bodyParams);
-//  }
-//  addParameters(content, codegenOperation.headerParams);
-//  addParameters(content, codegenOperation.queryParams);
-//  addParameters(content, codegenOperation.pathParams);
-//  addParameters(content, codegenOperation.cookieParams);
 
 
   private int indexOf(CodegenParameter param, List<CodegenParameter> allParams) {
