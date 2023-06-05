@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>kmdp-api-fnapp-generator</artifactId>
+
+  <dependencies>
+    <!-- External Dependencies -->
+    <dependency>
+      <artifactId>swagger-codegen</artifactId>
+      <groupId>io.swagger.codegen.v3</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>swagger-codegen-generators</artifactId>
+      <groupId>io.swagger.codegen.v3</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>junit-jupiter</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+    </dependency>
+
+  </dependencies>
+
+  <!-- Project Information -->
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>KMDP API Azure Function App Generator</name>
+
+  <!-- More Project Information -->
+  <parent>
+    <artifactId>kmdp-openapi-azure-toolkit</artifactId>
+    <groupId>edu.mayo.kmdp</groupId>
+    <version>12.0.0-SNAPSHOT</version>
+  </parent>
+
+  <version>12.0.0-SNAPSHOT</version>
+
+</project>

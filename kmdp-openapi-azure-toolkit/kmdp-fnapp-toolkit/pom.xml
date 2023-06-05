@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <artifactId>kmdp-openapi-azure-toolkit</artifactId>
+    <groupId>edu.mayo.kmdp</groupId>
+    <version>12.0.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>jar</packaging>
+
+  <artifactId>kmdp-fnapp-toolkit</artifactId>
+  <version>12.0.0-SNAPSHOT</version>
+  <name>AzFA :: Java Function App Toolkit</name>
+
+
+  <dependencies>
+
+    <dependency>
+      <artifactId>kmdp-utils</artifactId>
+      <groupId>edu.mayo.kmdp</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>kmdp-service-descr</artifactId>
+      <groupId>edu.mayo.kmdp</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>encoder</artifactId>
+      <groupId>org.owasp.encoder</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>azure-functions-java-library</artifactId>
+      <groupId>com.microsoft.azure.functions</groupId>
+      <version>${azure.functions.java.library.version}</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>kmdp-monitoring-10</artifactId>
+      <groupId>edu.mayo.kmdp</groupId>
+      <version>${kmdp.impl.version}</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>azure-storage-blob</artifactId>
+      <groupId>com.azure</groupId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>logback-classic</artifactId>
+      <groupId>ch.qos.logback</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>org.hl7.fhir.dstu3</artifactId>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <scope>provided</scope>
+      <version>${hapi.fhir.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>org.hl7.fhir.r4</artifactId>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <scope>provided</scope>
+      <version>${hapi.fhir.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>hapi-fhir-structures-r4</artifactId>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>hapi-fhir-structures-dstu3</artifactId>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+    </dependency>
+
+    <!-- Test -->
+
+
+    <dependency>
+      <artifactId>junit-jupiter</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+
+</project>

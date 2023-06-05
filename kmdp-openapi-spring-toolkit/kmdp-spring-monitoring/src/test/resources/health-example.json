@@ -1,0 +1,29 @@
+{
+  "serviceNowReference" : {
+    "id" : "CI...",
+    "url" : "https://mcsm.service-now.com/TBD",
+    "display" : "Knowledge Asset Repository"
+  },
+  "name" : "Knowledge Asset Repository",
+  "version" : "5.10.11-SNAPSHOT",
+  "status" : "Up",
+  "components" : [ {
+    "name" : "JPA Artifact Repository",
+    "status" : "Up",
+    "statusMessage" : "No news, good news!",
+    "details" : {
+      "type" : "HikariDataSource",
+      "user" : "sa",
+      "jdbcUrl" : "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",
+      "jdbcDriver" : "org.h2.Driver",
+      "connectionTimeout" : "30000",
+      "poolSize" : "20"
+    }
+  } ],
+  "deploymentEnvironment" : "local",
+  "schemaInfo" : {
+    "url" : "https://schemas.kmd.mayo.edu/health-endpoint.json",
+    "version" : "0.0.1"
+  },
+  "at" : "2021-11-02T18:28:54.8447536-05:00"
+}

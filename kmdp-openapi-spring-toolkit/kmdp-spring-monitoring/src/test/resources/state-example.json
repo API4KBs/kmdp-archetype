@@ -1,0 +1,40 @@
+{
+  "schemaInfo" : {
+    "url" : "https://schemas.kmd.mayo.edu/state-endpoint.json",
+    "version" : "0.0.1"
+  },
+  "serviceNowReference" : {
+    "id" : "CI...",
+    "url" : "https://mcsm.service-now.com/TBD",
+    "display" : "Knowledge Asset Repository"
+  },
+  "buildConfiguration" : {
+    "artifactName" : "KMDP :: Server :: Knowledge Asset Repository Service (Web)",
+    "groupId" : "edu.mayo.kmdp",
+    "artifactId" : "kmdp-knowledge-asset-repository-impl",
+    "version" : "5.10.11-SNAPSHOT",
+    "buildTime" : "2021-10-29T13:39:26.533-05:00"
+  },
+  "deploymentEnvironmentConfiguration" : {
+    "edu.mayo.kmdp.repository.artifact.namespace" : "https://clinicalknowledgemanagement.mayo.edu/artifacts/",
+    "edu.mayo.kmdp.repository.asset.graph.autoSaveDelay" : "10",
+    "edu.mayo.kmdp.repository.asset.namespace" : "https://clinicalknowledgemanagement.mayo.edu/assets/",
+    "local.server.port" : "8080",
+    "logging.level.org.springframework.transaction" : "ERROR",
+    "scan.packages" : "edu.mayo.kmdp.repository.asset,edu.mayo.kmdp.language,edu.mayo.kmdp.ops,edu.mayo.kmdp.kbase.query.sparql, edu.mayo.kmdp.util.aspects, edu.mayo.kmdp.health",
+    "spring.datasource.hikari.connectionTimeout" : "30000",
+    "spring.datasource.hikari.idleTimeout" : "600000",
+    "spring.datasource.hikari.leak-detection-threshold" : "30000",
+    "spring.datasource.hikari.maxLifetime" : "1800000",
+    "spring.datasource.hikari.maximum-pool-size" : "20",
+    "spring.jackson.default-property-inclusion" : "non_empty",
+    "spring.jackson.serialization.indent_output" : "true",
+    "spring.jackson.serialization.use-equality-for-object-id" : "true",
+    "spring.jpa.hibernate.ddl-auto" : "update",
+    "spring.jpa.open-in-view" : "false",
+    "spring.profiles.active" : "local"
+  },
+  "features" : {
+    "allowClearAll" : true
+  }
+}

@@ -2,10 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>kmdp-openapi-spring-archetype</artifactId>
-  <version>12.0.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-
   <!-- Project Information -->
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
@@ -13,10 +9,13 @@
     <version>12.0.0-SNAPSHOT</version>
   </parent>
 
+  <artifactId>kmdp-openapi-toolkits</artifactId>
+  <version>12.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
   <modules>
-    <module>kmdp-openapi-spring-implementation-archetype</module>
-    <module>kmdp-openapi-spring-service-archetype</module>
-    <module>kmdp-api-facade-generator</module>
+    <module>kmdp-openapi-spring-toolkit</module>
+    <module>kmdp-openapi-azure-toolkit</module>
   </modules>
 
   <properties>
@@ -24,8 +23,9 @@
   </properties>
 
   <!-- More Project Information -->
-  <name>KMDP OpenAPI Spring Archetype</name>
-  <description>Generates KMD Platform (KMDP) services based on Swagger APIs</description>
+  <name>KMDP OpenAPI Toolkits</name>
+  <description>Generates KMDP Services based on OpenAPIs</description>
+
   <url>https://github.com/API4KBs/kmdp-archetype</url>
   <developers>
     <developer>

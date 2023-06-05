@@ -1,0 +1,14 @@
+# Compiled class file
+*.class
+
+# Package Files #
+*.jar
+*.war
+
+.idea/
+.gradle/
+.settings/
+build/
+*.iml
+
+target/
