@@ -38,6 +38,7 @@
               <language>edu.mayo.kmdp.FacadeServerGenerator</language>
               <apiPackage>${package}.server</apiPackage>
               <generateSupportingFiles>false</generateSupportingFiles>
+              <generateModels>${useModelFromSpec}</generateModels>
               <configOptions>
                 <delegatePattern>true</delegatePattern>
                 <useTags>true</useTags>

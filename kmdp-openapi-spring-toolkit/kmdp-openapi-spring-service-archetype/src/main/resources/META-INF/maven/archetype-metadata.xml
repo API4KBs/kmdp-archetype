@@ -6,15 +6,23 @@
     <requiredProperty key="apiArtifactId">
       <defaultValue>API4KP</defaultValue>
     </requiredProperty>
+    <requiredProperty key="apiGroupId">
+      <defaultValue>edu.mayo.kmdp</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="apiVersionId">
+      <defaultValue>${project.version}</defaultValue>
+    </requiredProperty>
+
     <requiredProperty key="apiDirectory">
       <defaultValue>../../api</defaultValue>
     </requiredProperty>
-    <requiredProperty key="apiGroupId"/>
-    <requiredProperty key="apiVersionId"/>
-
     <requiredProperty key="apiName"/>
     <requiredProperty key="apiPath"/>
     <requiredProperty key="apiVersion"/>
+
+    <requiredProperty key="useModelFromSpec">
+      <defaultValue>false</defaultValue>
+    </requiredProperty>
 
     <requiredProperty key="modelDependencyGroupId">
       <defaultValue>edu.mayo.kmdp</defaultValue>

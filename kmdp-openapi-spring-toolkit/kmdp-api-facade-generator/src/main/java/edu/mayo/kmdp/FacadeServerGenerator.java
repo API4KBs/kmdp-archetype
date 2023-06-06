@@ -56,6 +56,11 @@ public class FacadeServerGenerator extends SpringCodegen implements CodegenConfi
   public void processOpts() {
     super.processOpts();
 
+    /// fix for bug https://github.com/swagger-api/swagger-codegen/issues/8000
+    if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
+      writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+    }
+
     boolean delegatesOnly = false;
     boolean controllersOnly = false;
     boolean internalsOnly = false;
