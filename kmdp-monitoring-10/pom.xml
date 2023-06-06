@@ -9,7 +9,7 @@
   <artifactId>kmdp-monitoring-10</artifactId>
 
   <parent>
-    <artifactId>kmdp-standard-models-impl</artifactId>
+    <artifactId>kmdp-openapi-toolkits</artifactId>
     <groupId>edu.mayo.kmdp</groupId>
     <version>12.0.1-SNAPSHOT</version>
   </parent>
