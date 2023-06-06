@@ -6,14 +6,15 @@
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
     <artifactId>kmdp-bom</artifactId>
-    <version>12.0.0-SNAPSHOT</version>
+    <version>12.0.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>kmdp-openapi-toolkits</artifactId>
-  <version>12.0.0-SNAPSHOT</version>
+  <version>12.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
+    <module>kmdp-monitoring-10</module>
     <module>kmdp-openapi-spring-toolkit</module>
     <module>kmdp-openapi-azure-toolkit</module>
   </modules>

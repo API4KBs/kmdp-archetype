@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>KMDP :: Lang :: KMP :: Monitoring 1.0 Schemas</name>
+  <artifactId>kmdp-monitoring-10</artifactId>
+
+  <parent>
+    <artifactId>kmdp-standard-models-impl</artifactId>
+    <groupId>edu.mayo.kmdp</groupId>
+    <version>12.0.1-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <spec.name>openapi/edu/mayo/kmdp/monitor/spec/kmdpMonitoring.swagger.yaml</spec.name>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.swagger.codegen.v3</groupId>
+        <artifactId>swagger-codegen-maven-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <artifactId>kmdp-api-facade-generator</artifactId>
+            <groupId>edu.mayo.kmdp</groupId>
+            <version>${kmdp.archetype.version}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <configuration>
+              <addCompileSourceRoot>true</addCompileSourceRoot>
+              <additionalProperties>
+                <additionalProperty>hideGenerationTimestamp=true</additionalProperty>
+              </additionalProperties>
+              <configOptions>
+                <controllersOnly>false</controllersOnly>
+                <dateLibrary>java8</dateLibrary>
+                <delegatePattern>true</delegatePattern>
+                <generateAliasAsModel>true</generateAliasAsModel>
+                <serializableModel>true</serializableModel>
+                <useBeanValidation>false</useBeanValidation>
+                <useTags>true</useTags>
+              </configOptions>
+              <generateApiDocumentation>false</generateApiDocumentation>
+              <generateApis>false</generateApis>
+              <generateModels>true</generateModels>
+              <generateSupportingFiles>false</generateSupportingFiles>
+              <inputSpec>
+                ${project.basedir}/src/main/resources/${spec.name}
+              </inputSpec>
+              <instantiationTypes>map=java.util.LinkedHashMap</instantiationTypes>
+              <language>edu.mayo.kmdp.UnvalidatedBeanModelGenerator</language>
+              <modelPackage>edu.mayo.kmdp.health.datatype</modelPackage>
+            </configuration>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <id>gen-code</id>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <artifactId>jackson-databind</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>validation-api</artifactId>
+      <groupId>javax.validation</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>swagger-annotations</artifactId>
+      <groupId>io.swagger.core.v3</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>kmdp-utils</artifactId>
+      <groupId>edu.mayo.kmdp</groupId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <artifactId>kmdp-test-utils</artifactId>
+      <groupId>edu.mayo.kmdp</groupId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
