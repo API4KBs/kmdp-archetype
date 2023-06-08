@@ -12,6 +12,9 @@
     <requiredProperty key="apiVersionId">
       <defaultValue>${project.version}</defaultValue>
     </requiredProperty>
+    <requiredProperty key="serviceName">
+      <defaultValue/>
+    </requiredProperty>
 
     <requiredProperty key="apiDirectory">
       <defaultValue>../../api</defaultValue>

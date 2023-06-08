@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * Home redirection to swagger api documentation
  */
 @Controller
-public class HomeController {
+public class ${serviceName}HomeController {
 
   @GetMapping(path = "/")
   public String index() {

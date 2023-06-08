@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
+public class ${serviceName}WebMvcConfig implements WebMvcConfigurer {
 
   @Override
   public void configurePathMatch(PathMatchConfigurer configurer) {
