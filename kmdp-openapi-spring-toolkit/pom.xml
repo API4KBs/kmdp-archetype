@@ -15,6 +15,7 @@
 
 
   <modules>
+    <module>kmdp-spring-ws-utils</module>
     <module>kmdp-openapi-spring-service-archetype</module>
     <module>kmdp-api-facade-generator</module>
     <module>kmdp-spring-monitoring</module>
