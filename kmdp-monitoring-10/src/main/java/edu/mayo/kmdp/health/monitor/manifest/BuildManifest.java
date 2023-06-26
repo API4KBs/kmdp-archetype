@@ -1,4 +1,4 @@
-package edu.mayo.kmdp.function.monitor.manifest;
+package edu.mayo.kmdp.health.monitor.manifest;
 
 import java.net.URL;
 import java.util.Map;

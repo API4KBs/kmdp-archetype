@@ -82,9 +82,12 @@
     </dependency>
 
     <dependency>
-      <artifactId>kmdp-utils</artifactId>
       <groupId>edu.mayo.kmdp</groupId>
-      <scope>test</scope>
+      <artifactId>kmdp-service-descr</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-utils</artifactId>
     </dependency>
     <dependency>
       <artifactId>kmdp-test-utils</artifactId>

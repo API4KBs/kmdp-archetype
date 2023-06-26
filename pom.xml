@@ -17,6 +17,7 @@
     <module>kmdp-monitoring-10</module>
     <module>kmdp-openapi-spring-toolkit</module>
     <module>kmdp-openapi-azure-toolkit</module>
+    <module>kmdp-openapi-cloudfn-toolkit</module>
   </modules>
 
   <properties>

@@ -1,8 +1,8 @@
-package edu.mayo.kmdp.function.monitor.manifest;
+package edu.mayo.kmdp.health.monitor.manifest;
 
-import edu.mayo.kmdp.function.monitor.FunctionAppMonitor;
-import edu.mayo.kmdp.function.monitor.MonitorableFunctionApp;
-import edu.mayo.kmdp.function.monitor.MonitorableFunctionAppComponent;
+import edu.mayo.kmdp.health.monitor.FunctionAppMonitor;
+import edu.mayo.kmdp.health.monitor.MonitorableFunctionApp;
+import edu.mayo.kmdp.health.monitor.MonitorableFunctionAppComponent;
 import edu.mayo.kmdp.health.MonitorablePropertyDef;
 import edu.mayo.kmdp.health.MonitoringSchema;
 import edu.mayo.kmdp.health.datatype.ApplicationComponent;

@@ -16,7 +16,7 @@ package edu.mayo.kmdp.function.common.service;
 import static edu.mayo.kmdp.function.common.service.BlobStorageService.BLOB_STORAGE_CONNECTION_STRING;
 import static edu.mayo.kmdp.function.common.service.BlobStorageService.BLOB_STORAGE_READ_TOKEN;
 
-import edu.mayo.kmdp.function.monitor.MonitorableFunctionAppComponent;
+import edu.mayo.kmdp.health.monitor.MonitorableFunctionAppComponent;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.stream.Collectors;

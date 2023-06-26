@@ -1,0 +1,46 @@
+package {{package}};
+
+{{#modelPackage}}
+import {{modelPackage}}.*;
+{{/modelPackage}}
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.List;
+import java.util.Optional;
+{{/fullJavaUtil}}
+
+
+public interface {{classname}}Internal {
+{{#operations}}
+
+
+{{#operation}}
+
+  @java.lang.FunctionalInterface
+  interface _{{operationId}} {
+    org.omg.spec.api4kp._20200801.Answer<{{>returnTypes}}> {{operationId}}(
+      {{#invocationContextAware}}String _fnContextRequestId,{{/invocationContextAware}}
+      {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}});
+  }
+
+  default org.omg.spec.api4kp._20200801.Answer<{{>returnTypes}}> {{operationId}}(
+    {{#invocationContextAware}}String _fnContextRequestId,{{/invocationContextAware}}
+    {{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}  {{/allParams}}) {
+    return org.omg.spec.api4kp._20200801.Answer.unsupported();
+  }
+
+  {{#hasOptionalParams}}
+  default org.omg.spec.api4kp._20200801.Answer<{{>returnTypes}}> {{operationId}}(
+    {{#invocationContextAware}}String _fnContextRequestId,{{/invocationContextAware}}
+    {{#requiredParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}) {
+    return {{operationId}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{#defaultValue}}{{#isString}}"{{.}}"{{/isString}}{{^isString}}{{.}}{{/isString}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+  }
+  {{/hasOptionalParams}}
+
+{{/operation}}
+
+{{/operations}}
+}
+

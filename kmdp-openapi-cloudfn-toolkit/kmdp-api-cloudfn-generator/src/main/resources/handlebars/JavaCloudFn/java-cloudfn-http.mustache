@@ -4,18 +4,15 @@ package {{invokerPackage}};
 import {{import}};
 {{/imports}}
 
-import com.microsoft.azure.functions.ExecutionContext;
-import com.microsoft.azure.functions.HttpMethod;
-import com.microsoft.azure.functions.HttpRequestMessage;
-import com.microsoft.azure.functions.HttpResponseMessage;
-import com.microsoft.azure.functions.HttpStatus;
-import com.microsoft.azure.functions.annotation.AuthorizationLevel;
-import com.microsoft.azure.functions.annotation.FunctionName;
-import com.microsoft.azure.functions.annotation.HttpTrigger;
-
+import com.google.cloud.functions.HttpFunction;
+import com.google.cloud.functions.HttpRequest;
+import com.google.cloud.functions.HttpResponse;
+import edu.mayo.kmdp.function.util.FunctionContext;
+import edu.mayo.kmdp.function.util.CloudFunctionHelper;
 import edu.mayo.kmdp.health.monitor.MonitorableFunctionApp;
-import edu.mayo.kmdp.function.util.FunctionAppHelper;
+import java.io.IOException;
 import edu.mayo.kmdp.function.common.handlers.MessageHandler;
+
 
 {{^fullJavaUtil}}
 import java.util.List;
@@ -34,7 +31,7 @@ import {{apiPackage}}.{{classname}}Internal._{{operationId}};
 
 
 
-public class {{classname}}Function {
+public class {{classname}}Function implements HttpFunction {
 
   private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger({{classname}}Function.class);
 
@@ -54,7 +51,7 @@ public class {{classname}}Function {
     try {
       var loader =
           ServiceLoader
-              .load(_{{operationId}}.class);
+              .load(_{{operationId}}.class, {{classname}}Function.class.getClassLoader());
       delegate = loader.findFirst().orElseThrow(() ->
           new RuntimeException("No provider for API " + _{{operationId}}.class.getName()));
 
@@ -64,7 +61,7 @@ public class {{classname}}Function {
 
       var parser =
           ServiceLoader
-              .load(MessageHandler.class);
+              .load(MessageHandler.class, {{classname}}Function.class.getClassLoader());
       handler = parser.findFirst().orElse(new MessageHandler() {
       });
     } catch (Throwable t) {
@@ -90,20 +87,44 @@ public class {{classname}}Function {
     return delegate;
   }
 
-  @FunctionName("{{operationId}}")
-  public HttpResponseMessage {{operationId}}(
-      @HttpTrigger(
-          name = "httpTrigger",
-          methods = { HttpMethod.{{httpMethod}} },
-          route = "{{#normalizePath}}{{{path}}}{{/normalizePath}}",
-          authLevel = AuthorizationLevel.ANONYMOUS)
-          HttpRequestMessage<Optional<String>> request,
-      ExecutionContext functionExecContext) {
+  public void service(
+      HttpRequest request,
+      HttpResponse response)
+      throws IOException {
 
+    var functionExecContext =
+      new FunctionContext("{{className}}::{{operationId}}", UUID.randomUUID().toString(), logger);
+
+    if ("{{httpMethod}}".equals(request.getMethod())
+      && "{{{path}}}".equals(request.getPath())) {
+      {{operationId}}(request, response, functionExecContext);
+    } else if ("GET".equals(request.getMethod())) {
+      switch (request.getPath()) {
+        case "/state":
+          state(response, functionExecContext);
+        break;
+        case "/version":
+          version(response, functionExecContext);
+        break;
+        case "/health":
+          health(response, functionExecContext);
+        break;
+        default:
+      }
+    } else {
+      response.setStatusCode(400);
+    }
+
+  }
+
+  public void {{operationId}}(
+    HttpRequest request,
+    HttpResponse response,
+    FunctionContext functionExecContext) {
     try {
     {{#allParams}}
       {{{dataType}}} {{paramName}} =
-          FunctionAppHelper.{{#isQueryParam}}fromQuery{{/isQueryParam}}{{#isBodyParam}}fromBody{{/isBodyParam}}{{#isHeaderParam}}fromHeader{{/isHeaderParam}}{{#isPathParam}}fromPath{{/isPathParam}}(
+          CloudFunctionHelper.{{#isQueryParam}}fromQuery{{/isQueryParam}}{{#isBodyParam}}fromBody{{/isBodyParam}}{{#isHeaderParam}}fromHeader{{/isHeaderParam}}{{#isPathParam}}fromPath{{/isPathParam}}(
               "{{paramName}}",
               "{{{path}}}",
               {{{dataType}}}.class, // dataType
@@ -112,81 +133,71 @@ public class {{classname}}Function {
               {{#isQueryParam}}request.getQueryParameters(){{/isQueryParam}}{{#isBodyParam}}request.getBody().orElse(null){{/isBodyParam}}{{#isHeaderParam}}request.getHeaders(){{/isHeaderParam}}{{#isPathParam}}request.getUri().getPath(){{/isPathParam}},
               functionExecContext.getInvocationId(){{#isBodyParam}},{{/isBodyParam}}
               {{#isBodyParam}}(json, arg) -> ({{{dataType}}}) handler.parse(json, {{{dataType}}}.class).orElse(null){{/isBodyParam}}
-        );
+        ){{^isListContainer}}.get(0){{/isListContainer}};
     {{/allParams}}
 
     var answer = delegate.{{operationId}}(
         {{#invocationContextAware}}functionExecContext.getInvocationId(),{{/invocationContextAware}}
         {{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         .flatMap(x -> handler.serialize(x));
-      return FunctionAppHelper.toResponse(request, answer);
+      CloudFunctionHelper.toResponse(functionExecContext, response, answer);
     } catch (Throwable e) {
-      FunctionAppHelper.logException(functionExecContext, e);
+      CloudFunctionHelper.logException(functionExecContext, e);
       var answer = org.omg.spec.api4kp._20200801.Answer.failed(e);
-      return FunctionAppHelper.toResponse(request, answer);
+      CloudFunctionHelper.toResponse(functionExecContext, response, answer);
     }
 
   }
 
 
-
-  /**
+/**
    * Version monitoring endpoint
    *
-   * @param request         the client request
-   * @param functionContext the execution context
+   * @param response        the client response
+   * @param context the execution context
    * @return the /version data, as a response
    */
-  @FunctionName("version")
-  public HttpResponseMessage version(
-      @HttpTrigger(name = "httpTrigger", methods = {HttpMethod.GET},
-          authLevel = AuthorizationLevel.ANONYMOUS)
-      HttpRequestMessage<Optional<String>> request,
-      ExecutionContext functionContext) {
+  public void version(
+      HttpResponse response,
+      FunctionContext context) {
     try {
-      return FunctionAppHelper.toResponse(request, monitorable.getVersion());
+      CloudFunctionHelper.toResponse(context, response, monitorable.getVersion());
     } catch (Throwable e) {
-      return FunctionAppHelper.toResponse(request, org.omg.spec.api4kp._20200801.Answer.failed(e));
+      CloudFunctionHelper.toResponse(context, response, org.omg.spec.api4kp._20200801.Answer.failed(e));
     }
   }
 
   /**
    * State monitoring endpoint
    *
-   * @param request         the client request
-   * @param functionContext the execution context
+   * @param response        the client response
+   * @param context the execution context
    * @return the /state data, as a response
    */
-  @FunctionName("state")
-  public HttpResponseMessage state(
-      @HttpTrigger(name = "httpTrigger", methods = {HttpMethod.GET},
-          authLevel = AuthorizationLevel.ANONYMOUS)
-      HttpRequestMessage<Optional<String>> request,
-      ExecutionContext functionContext) {
+  public void state(
+      HttpResponse response,
+      FunctionContext context) {
     try {
-      return FunctionAppHelper.toResponse(request, monitorable.getState());
+      CloudFunctionHelper.toResponse(context, response, monitorable.getState());
     } catch (Throwable e) {
-      return FunctionAppHelper.toResponse(request, org.omg.spec.api4kp._20200801.Answer.failed(e));
+      CloudFunctionHelper.toResponse(context, response, org.omg.spec.api4kp._20200801.Answer.failed(e));
     }
   }
 
   /**
    * Health monitoring endpoint
    *
-   * @param request the client request
-   * @param context the execution context
+   * @param response the client response
+   * @param context  the execution context
    * @return the /health data, as a response
    */
-  @FunctionName("health")
-  public HttpResponseMessage health(
-      @HttpTrigger(name = "httpTrigger", methods = {HttpMethod.GET},
-          authLevel = AuthorizationLevel.ANONYMOUS)
-      HttpRequestMessage<Optional<String>> request,
-      ExecutionContext functionContext) {
+  public void health(
+      HttpResponse response,
+      FunctionContext context) {
     try {
-      return FunctionAppHelper.toResponse(request, monitorable.getHealth());
+      CloudFunctionHelper.toResponse(context, response, monitorable.getHealth());
     } catch (Throwable e) {
-      return FunctionAppHelper.toResponse(request, org.omg.spec.api4kp._20200801.Answer.failed(e));
+      CloudFunctionHelper.toResponse(context, response, org.omg.spec.api4kp._20200801.Answer.failed(e));
     }
   }
 

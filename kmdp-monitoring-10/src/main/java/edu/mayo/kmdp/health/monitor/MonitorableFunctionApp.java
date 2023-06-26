@@ -1,4 +1,4 @@
-package edu.mayo.kmdp.function.monitor;
+package edu.mayo.kmdp.health.monitor;
 
 import edu.mayo.kmdp.health.MonitorablePropertyDef;
 import edu.mayo.kmdp.health.datatype.HealthData;

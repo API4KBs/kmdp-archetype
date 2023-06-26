@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>kmdp-openapi-toolkits</artifactId>
+    <groupId>edu.mayo.kmdp</groupId>
+    <version>12.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>kmdp-openapi-cloudfn-toolkit</artifactId>
+  <version>12.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>KMP Cloud Function Framework</name>
+
+  <properties>
+    <cloud.functions.java.library.version>1.1.0</cloud.functions.java.library.version>
+    <cloud.functions.maven.plugin.version>0.10.1</cloud.functions.maven.plugin.version>
+    <function.name/>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.google.cloud.functions</groupId>
+        <artifactId>functions-framework-api</artifactId>
+        <version>${cloud.functions.java.library.version}</version>
+        <scope>provided</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <configuration>
+            <archive>
+              <index>true</index>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              </manifest>
+              <manifestEntries>
+                <Build-Time>${maven.build.timestamp}</Build-Time>
+                <Implementation-Artifact>${project.artifactId}</Implementation-Artifact>
+              </manifestEntries>
+            </archive>
+          </configuration>
+          <groupId>org.apache.maven.plugins</groupId>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <modules>
+    <module>kmdp-api-cloudfn-generator</module>
+    <module>kmdp-cloudfn-toolkit</module>
+  </modules>
+
+</project>
