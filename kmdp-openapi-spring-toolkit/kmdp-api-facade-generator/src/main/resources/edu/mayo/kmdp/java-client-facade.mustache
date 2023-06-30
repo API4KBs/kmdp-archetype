@@ -33,7 +33,13 @@ public interface {{classname}} extends {{package}}.server.{{classname}}Internal
     return new {{package}}.{{classname}}Facade( internal );
   }
 
-  {{#operation}}
+  /**
+   * @return true if this client connects to a remote server
+   */
+  public boolean isRemote();
+
+
+{{#operation}}
   {{#isDeprecated}}@Deprecated{{/isDeprecated}}
   /**
    * {{summary}}

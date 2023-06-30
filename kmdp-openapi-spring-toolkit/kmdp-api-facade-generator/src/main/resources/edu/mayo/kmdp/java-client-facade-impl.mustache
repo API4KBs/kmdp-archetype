@@ -49,6 +49,11 @@ public class {{classname}}Facade implements {{package}}.{{classname}} {
     this.mode = Integration.DIRECT;
   }
 
+  @Override
+  public boolean isRemote() {
+    return this.mode == Integration.WEB;
+  }
+
 
   {{#operation}}
   {{#isDeprecated}}@Deprecated{{/isDeprecated}}
