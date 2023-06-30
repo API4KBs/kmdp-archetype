@@ -11,6 +11,8 @@ import {{modelPackage}}.*;
   import java.util.UUID;
 {{/fullJavaUtil}}
 
+import edu.mayo.kmdp.util.ws.PathParamList;
+
 {{#operations}}
 public interface {{classname}} extends {{package}}.server.{{classname}}Internal
  {{#operation}}, {{package}}.server.{{classname}}Internal._{{operationId}}

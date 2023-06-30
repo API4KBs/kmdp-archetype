@@ -73,8 +73,20 @@ public class ParamsAdapterHelper implements Helper<CodegenOperation> {
 
   private String writeActual(CodegenParameter p, boolean requiredOnly) {
     return !requiredOnly || p.required
-        ? p.getParamName()
+        ? adjustContainers(p)
         : formatDefault(p);
+  }
+
+  /**
+   * See <a href="https://github.com/swagger-api/swagger-codegen/issues/12192"/>
+   * @param p the parameter
+   * @return wrapped in a class that serializes properly
+   */
+  private String adjustContainers(CodegenParameter p) {
+    if (p.getIsPathParam() && p.getIsListContainer()) {
+      return "PathParamList.wrap(" + p.getParamName() +")";
+    }
+    return p.getParamName();
   }
 
   private String formatDefault(CodegenParameter p) {
